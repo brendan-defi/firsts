@@ -1,0 +1,56 @@
+volumes:
+    postgres-db:
+        external: true
+    pg-admin:
+        external: true
+services:
+    postgres:
+        image: postgres:14.5-bullseye
+        volumes:
+            - postgres-db:/var/lib/postgresql/data
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER_FROM_ENV}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_FROM_ENV}
+            POSTGRES_DB: ${POSTGRES_DATABASE_NAME}
+        ports:
+            - "15432:5432"
+    pg-admin:
+        container_name: pgadmin
+        image: dpage/pgadmin4:latest
+        volumes:
+            - pg-admin:/var/lib/pgadmin
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL_FROM_ENV}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD_FROM_ENV}
+            PGADMIN_DISABLE_POSTFIX: 1
+        ports:
+            - "8082:80"
+        restart: always
+    fastapi:
+        environment:
+            CORS_HOST: ${CORS_HOST}
+            SIGNING_KEY: ${SIGNING_KEY}
+            WAIT_HOSTS: postgres:5432
+            WAIT_HOSTS_BEFORE: 5
+            WAIT_TIMEOUT: 240
+            DATABASE_URL: ${DB_URL}
+        build:
+            context: api
+            dockerfile: Dockerfile.dev
+        ports:
+            - 8000:8000
+        volumes:
+            - ./api:/app
+        depends_on:
+            - postgres
+    # ghi:
+    #     image: node:lts-bullseye
+    #     command: /bin/bash run.sh
+    #     working_dir: /app
+    #     volumes:
+    #         - ./ghi:/app
+    #     ports:
+    #         - "5173:5173"
+    #     environment:
+    #         VITE_API_HOST: $VITE_API_HOST
+    #         REACT_APP_USER_SERVICE_API_HOST: $REACT_APP_USER_SERVICE_API_HOST
