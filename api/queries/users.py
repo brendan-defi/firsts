@@ -33,7 +33,6 @@ class UsersQueries:
                         [username]
                     )
                     result_data = result.fetchone()
-                    print("result data: ", result_data)
                     if not result_data:
                         return None
                     user = UserOut(
@@ -59,11 +58,9 @@ class UsersQueries:
         """
         user_with_provided_username = self.get_user_by_username(new_user_data.username)
         if isinstance(user_with_provided_username, UserOut):
-            print("duplicate user exists")
             raise DuplicateUserError(
                 "Could not create new user."
             )
-        print("got here")
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -96,5 +93,5 @@ class UsersQueries:
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="You got here" + str(e),
+                detail=str(e),
             )

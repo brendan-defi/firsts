@@ -39,7 +39,7 @@ def create_user(
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="failed to create " + str(e)
+            detail=str(e)
         )
     if not isinstance(new_user, UserOutWithHashedPassword):
         return Error(
