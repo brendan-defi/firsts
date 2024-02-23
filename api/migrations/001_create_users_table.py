@@ -8,9 +8,9 @@ steps = [
             password VARCHAR(100) NOT NULL,
             firstname VARCHAR(100),
             lastname VARCHAR(100),
-            created_at TIMESTAMP NOT NULL,
-            updated_at TIMESTAMP NOT NULL,
-            deleted_at TIMESTAMP
+            created_at TIMESTAMPTZ NOT NULL,
+            updated_at TIMESTAMPTZ NOT NULL,
+            deleted_at TIMESTAMPTZ
         );
         """,
         # "Down" SQL statement
