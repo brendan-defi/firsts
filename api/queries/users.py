@@ -15,11 +15,13 @@ class UsersQueries:
     def get_user_by_username(
         self,
         username: str
-    ) -> UserOut|None:
+    ) -> UserOut | None:
         """
         Queries the database for a user with the provided username.
-        If a user exists with that username, the user entity is returned as a UserOut object.
-        If a user does not exist with that username, raise an HTTPException with a 400 Status.
+        If a user exists with that username, the user entity is returned as a
+        UserOut object.
+        If a user does not exist with that username, raise an HTTPException
+        with a 400 Status.
         """
         try:
             with pool.connection() as conn:
@@ -49,14 +51,17 @@ class UsersQueries:
     def create(
         self,
         new_user_data: UserIn
-    ) -> UserOutWithHashedPassword|Error:
+    ) -> UserOutWithHashedPassword | Error:
         """
         Queries the database to create a new user from the provided form data.
-        First checks to see if a user already exists with the provided username. If one does, returns a DuplicateUserError.
+        First checks to see if a user already exists with the provided
+        username. If one does, returns a DuplicateUserError.
         If no user exists with that username, attempts to create the new user.
         If successful, returns a UserOutWithHashedPassword object.
         """
-        user_with_provided_username = self.get_user_by_username(new_user_data.username)
+        user_with_provided_username = self.get_user_by_username(
+            new_user_data.username
+        )
         if isinstance(user_with_provided_username, UserOut):
             raise DuplicateUserError(
                 "Could not create new user."

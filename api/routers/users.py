@@ -5,8 +5,8 @@ from fastapi import (
     Depends,
     status,
     HTTPException,
-    Request,
-    Response,
+    # Request,
+    # Response,
 )
 from models.errors import (
     Error,
@@ -23,11 +23,11 @@ from queries.users import UsersQueries
 router = APIRouter()
 
 
-@router.post("/api/users", response_model=UserOut|Error)
+@router.post("/api/users", response_model=UserOut | Error)
 def create_user(
     form_submission: UserForm,
     repo: UsersQueries = Depends(),
-) -> UserOutWithHashedPassword|Error:
+) -> UserOutWithHashedPassword | Error:
     new_user_in = UserIn(
         username=form_submission.username,
         hashed_password=form_submission.generate_hashed_password(),
