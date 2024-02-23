@@ -7,7 +7,7 @@ class UserForm(BaseModel):
     password: str
 
     def generate_hashed_password(self):
-        pass
+        return self.password
 
 
 class UserIn(BaseModel):
