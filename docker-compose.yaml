@@ -1,5 +1,5 @@
 volumes:
-    postgres-db:
+    firsts-postgres:
         external: true
     pg-admin:
         external: true
@@ -7,7 +7,7 @@ services:
     postgres:
         image: postgres:14.5-bullseye
         volumes:
-            - postgres-db:/var/lib/postgresql/data
+            - firsts-postgres:/var/lib/postgresql/data
         environment:
             POSTGRES_USER: ${POSTGRES_USER_FROM_ENV}
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_FROM_ENV}
