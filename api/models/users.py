@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 class UserForm(BaseModel):
-    email: str
+    username: str
     password: str
 
     def generate_hashed_password(self):
@@ -11,7 +11,7 @@ class UserForm(BaseModel):
 
 
 class UserIn(BaseModel):
-    email: str
+    username: str
     hashed_password: str
     created_at: datetime
     updated_at: datetime
@@ -19,7 +19,7 @@ class UserIn(BaseModel):
 
 class UserOut(BaseModel):
     id: int
-    email: str
+    username: str
 
 
 class UserOutWithHashedPassword(UserOut):

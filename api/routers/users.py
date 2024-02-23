@@ -29,7 +29,7 @@ def create_user(
     repo: UsersQueries = Depends(),
 ) -> UserOutWithHashedPassword|Error:
     new_user_in = UserIn(
-        email=form_submission.email,
+        username=form_submission.username,
         hashed_password=form_submission.generate_hashed_password(),
         created_at=datetime.now(tz=ZoneInfo("GMT")),
         updated_at=datetime.now(tz=ZoneInfo("GMT"))

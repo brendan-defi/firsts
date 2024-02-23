@@ -12,25 +12,25 @@ from queries.connection_pool import pool
 
 
 class UsersQueries:
-    def get_user_by_email(
+    def get_user_by_username(
         self,
-        email: str
+        username: str
     ) -> UserOut|None:
         """
-        Queries the database for a user with the provided email.
-        If a user exists with that email, the user entity is returned as a UserOut object.
-        If a user does not exist with that email, raise an HTTPException with a 400 Status.
+        Queries the database for a user with the provided username.
+        If a user exists with that username, the user entity is returned as a UserOut object.
+        If a user does not exist with that username, raise an HTTPException with a 400 Status.
         """
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT id, email
+                        SELECT id, username
                         FROM users
-                        WHERE email = %s;
+                        WHERE username = %s;
                         """,
-                        [email]
+                        [username]
                     )
                     result_data = result.fetchone()
                     print("result data: ", result_data)
@@ -38,7 +38,7 @@ class UsersQueries:
                         return None
                     user = UserOut(
                         id=result_data[0],
-                        email=result_data[1]
+                        username=result_data[1]
                     )
                     return user
         except Exception as e:
@@ -53,12 +53,12 @@ class UsersQueries:
     ) -> UserOutWithHashedPassword|Error:
         """
         Queries the database to create a new user from the provided form data.
-        First checks to see if a user already exists with the provided email. If one does, returns a DuplicateUserError.
-        If no user exists with that email, attempts to create the new user.
+        First checks to see if a user already exists with the provided username. If one does, returns a DuplicateUserError.
+        If no user exists with that username, attempts to create the new user.
         If successful, returns a UserOutWithHashedPassword object.
         """
-        user_with_provided_email = self.get_user_by_email(new_user_data.email)
-        if isinstance(user_with_provided_email, UserOut):
+        user_with_provided_username = self.get_user_by_username(new_user_data.username)
+        if isinstance(user_with_provided_username, UserOut):
             print("duplicate user exists")
             raise DuplicateUserError(
                 "Could not create new user."
@@ -70,13 +70,13 @@ class UsersQueries:
                     result = db.execute(
                         """
                         INSERT INTO users
-                            (email, password, created_at, updated_at)
+                            (username, password, created_at, updated_at)
                         VALUES
                             (%s, %s, %s, %s)
-                        RETURNING id, email, password;
+                        RETURNING id, username, password;
                         """,
                         [
-                            new_user_data.email,
+                            new_user_data.username,
                             new_user_data.hashed_password,
                             new_user_data.created_at,
                             new_user_data.updated_at,
@@ -89,7 +89,7 @@ class UsersQueries:
                         )
                     new_user = UserOutWithHashedPassword(
                         id=result_data[0],
-                        email=result_data[1],
+                        username=result_data[1],
                         hashed_password=result_data[2]
                     )
                     return new_user
