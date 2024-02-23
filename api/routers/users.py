@@ -26,8 +26,6 @@ router = APIRouter()
 @router.post("/api/users", response_model=UserOut|Error)
 def create_user(
     form_submission: UserForm,
-    # request: Request,
-    # response: Response,
     repo: UsersQueries = Depends(),
 ) -> UserOutWithHashedPassword|Error:
     new_user_in = UserIn(
@@ -41,7 +39,7 @@ def create_user(
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=str(e)
+            detail="failed to create " + str(e)
         )
     if not isinstance(new_user, UserOutWithHashedPassword):
         return Error(
