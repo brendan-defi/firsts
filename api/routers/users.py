@@ -57,6 +57,12 @@ def update_user(
     form_data: UserFormForAccountUpdate,
     repo: UsersQueries = Depends(),
 ):
+    """
+    This method takes form data that the user submits and updates the user.
+    This method updates all data fields for a given user. So when calling
+    this method, developer should provide all existing information that exists.
+    Failing to provide information will result in accidental data deletion.
+    """
     updated_user_data = UserDataForAccountUpdate(
         username=form_data.username,
         first_name=form_data.first_name,
