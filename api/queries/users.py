@@ -2,10 +2,13 @@ from fastapi import HTTPException, status
 from models.errors import (
     DuplicateUserError,
     Error,
+    UserDoesNotExistError,
 )
 from models.users import (
-    UserIn,
+    UserDataForAccountCreation,
+    UserDataForAccountUpdate,
     UserOut,
+    UserOutWithAllInfo,
     UserOutWithHashedPassword,
 )
 from queries.connection_pool import pool
@@ -48,9 +51,45 @@ class UsersQueries:
                 detail=str(e),
             )
 
+    def get_user_by_id(
+        self,
+        user_id: int
+    ) -> UserOut | None:
+        """
+        Queries the database for a user with the provided user_id.
+        If a user exists with that user_id, the user entity is returned as a
+        UserOut object.
+        If a user does not exist with that user_id, raise an HTTPException
+        with a 400 Status.
+        """
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT id, username
+                        FROM users
+                        WHERE id = %s;
+                        """,
+                        [user_id]
+                    )
+                    result_data = result.fetchone()
+                    if not result_data:
+                        return None
+                    user = UserOut(
+                        id=result_data[0],
+                        username=result_data[1]
+                    )
+                    return user
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=str(e),
+            )
+
     def create(
         self,
-        new_user_data: UserIn
+        new_user_data: UserDataForAccountCreation
     ) -> UserOutWithHashedPassword | Error:
         """
         Queries the database to create a new user from the provided form data.
@@ -95,6 +134,68 @@ class UsersQueries:
                         hashed_password=result_data[2]
                     )
                     return new_user
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=str(e),
+            )
+
+    def update(
+        self,
+        user_id: int,
+        updated_user_data: UserDataForAccountUpdate,
+    ) -> UserOutWithAllInfo | Error:
+        user_with_provided_id = self.get_user_by_id(
+            user_id
+        )
+        if not isinstance(user_with_provided_id, UserOut):
+            raise UserDoesNotExistError(
+                "Could not update user."
+            )
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        UPDATE users
+                        SET
+                            username = %s,
+                            firstname = %s,
+                            lastname = %s,
+                            updated_at = %s
+                        WHERE id = %s
+                        RETURNING
+                            id,
+                            username,
+                            firstname,
+                            lastname,
+                            created_at,
+                            updated_at,
+                            deleted_at;
+                        """,
+                        [
+                            updated_user_data.username,
+                            updated_user_data.first_name,
+                            updated_user_data.last_name,
+                            updated_user_data.updated_at,
+                            user_id
+                        ]
+                    )
+                    result_data = result.fetchone()
+                    if not result_data:
+                        return Error(
+                            message="Update user query failed."
+                        )
+                    updated_user = UserOutWithAllInfo(
+                        id=result_data[0],
+                        username=result_data[1],
+                        first_name=result_data[2],
+                        last_name=result_data[3],
+                        created_at=result_data[4],
+                        updated_at=result_data[5],
+                        deleted_at=result_data[6]
+                    )
+                    return updated_user
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,

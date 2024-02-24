@@ -7,3 +7,7 @@ class Error(BaseModel):
 
 class DuplicateUserError(ValueError):
     pass
+
+
+class UserDoesNotExistError(ValueError):
+    pass

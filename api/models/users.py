@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from datetime import datetime
 
 
-class UserForm(BaseModel):
+class UserFormForAccountCreation(BaseModel):
     username: str
     password: str
 
@@ -10,16 +10,34 @@ class UserForm(BaseModel):
         return self.password
 
 
-class UserIn(BaseModel):
+class UserFormForAccountUpdate(BaseModel):
+    username: str | None = None
+    first_name: str | None = None
+    last_name: str | None = None
+
+
+class UserDataForAccountCreation(BaseModel):
     username: str
     hashed_password: str
     created_at: datetime
     updated_at: datetime
 
 
+class UserDataForAccountUpdate(UserFormForAccountUpdate):
+    updated_at: datetime
+
+
 class UserOut(BaseModel):
     id: int
     username: str
+
+
+class UserOutWithAllInfo(UserOut):
+    first_name: str
+    last_name: str
+    created_at: datetime
+    updated_at: datetime
+    deleted_at: datetime | None
 
 
 class UserOutWithHashedPassword(UserOut):
