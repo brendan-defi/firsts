@@ -1,4 +1,10 @@
 from fastapi import HTTPException, status
+from .helper_functions.result_to_userout \
+    import result_to_userout
+from .helper_functions.result_to_useroutwithhashedpassword \
+    import result_to_user_out_with_hashed_password
+from .helper_functions.result_to_user_out_with_all_info \
+    import result_to_user_out_with_all_info
 from models.errors import (
     DuplicateUserError,
     Error,
@@ -40,11 +46,7 @@ class UsersQueries:
                     result_data = result.fetchone()
                     if not result_data:
                         return None
-                    user = UserOut(
-                        id=result_data[0],
-                        username=result_data[1]
-                    )
-                    return user
+                    return result_to_userout(result_data)
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -76,11 +78,7 @@ class UsersQueries:
                     result_data = result.fetchone()
                     if not result_data:
                         return None
-                    user = UserOut(
-                        id=result_data[0],
-                        username=result_data[1]
-                    )
-                    return user
+                    return result_to_userout(result_data)
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -128,12 +126,7 @@ class UsersQueries:
                         return Error(
                             message="New user creation query failed."
                         )
-                    new_user = UserOutWithHashedPassword(
-                        id=result_data[0],
-                        username=result_data[1],
-                        hashed_password=result_data[2]
-                    )
-                    return new_user
+                    return result_to_user_out_with_hashed_password(result_data)
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -186,16 +179,7 @@ class UsersQueries:
                         return Error(
                             message="Update user query failed."
                         )
-                    updated_user = UserOutWithAllInfo(
-                        id=result_data[0],
-                        username=result_data[1],
-                        first_name=result_data[2],
-                        last_name=result_data[3],
-                        created_at=result_data[4],
-                        updated_at=result_data[5],
-                        deleted_at=result_data[6]
-                    )
-                    return updated_user
+                    return result_to_user_out_with_all_info(result_data)
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
