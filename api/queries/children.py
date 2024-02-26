@@ -94,8 +94,8 @@ class ChildrenQueries:
                     )
                     return new_child
         except Exception as e:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            return Error(
+                message="New child creation query failed.",
                 detail=str(e),
             )
 
