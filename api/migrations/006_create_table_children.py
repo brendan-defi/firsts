@@ -4,7 +4,6 @@ steps = [
         """
         CREATE TABLE IF NOT EXISTS children (
             id SERIAL PRIMARY KEY,
-            account_manager INTEGER NOT NULL REFERENCES users(id),
             firstname VARCHAR(100) NOT NULL,
             lastname VARCHAR(100),
             date_of_birth DATE,
