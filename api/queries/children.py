@@ -1,4 +1,5 @@
 from fastapi import HTTPException, status
+from .helper_functions.result_to_childout import result_to_childout
 from models.errors import (
     DuplicateUserError,
     Error,
@@ -82,17 +83,7 @@ class ChildrenQueries:
                         return Error(
                             message="New child creation query failed."
                         )
-                    new_child = ChildOut(
-                        id=result_data[0],
-                        firstname=result_data[1],
-                        lastname=result_data[2],
-                        date_of_birth=result_data[3],
-                        gender_id=result_data[4],
-                        created_at=result_data[5],
-                        updated_at=result_data[6],
-                        deleted_at=result_data[7]
-                    )
-                    return new_child
+                    return result_to_childout(result_data)
         except Exception as e:
             return Error(
                 message="New child creation query failed.",
@@ -102,7 +93,7 @@ class ChildrenQueries:
     def get_child_by_id(
         self,
         child_id: int
-    ) -> ChildOut | None:
+    ) -> ChildOut | Error:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -126,20 +117,12 @@ class ChildrenQueries:
                     )
                     result_data = result.fetchone()
                     if not result_data:
-                        return None
-                    child = ChildOut(
-                        id=result_data[0],
-                        firstname=result_data[1],
-                        lastname=result_data[2],
-                        date_of_birth=result_data[3],
-                        gender_id=result_data[4],
-                        created_at=result_data[5],
-                        updated_at=result_data[6],
-                        deleted_at=result_data[7]
-                    )
-                    return child
+                        return Error(
+                            message="Could not find child."
+                        )
+                    return result_to_childout(result_data)
         except Exception as e:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            return Error(
+                message="New child creation query failed.",
                 detail=str(e),
             )
