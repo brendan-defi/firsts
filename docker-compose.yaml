@@ -43,12 +43,12 @@ services:
             - ./api:/app
         depends_on:
             - postgres
-    ghi:
+    web-ghi:
         image: node:lts-bullseye
         command: /bin/bash run.sh
         working_dir: /app
         volumes:
-            - ./ghi:/app
+            - ./clients/web:/app
         ports:
             - "5173:5173"
         environment:
