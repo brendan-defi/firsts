@@ -1,11 +1,11 @@
 {
-  "extends": "expo/tsconfig.base",
-  "compilerOptions": {
-    "target": "ES2016",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "strict": true
-  },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
+    "extends": "expo/tsconfig.base",
+    "compilerOptions": {
+        "target": "ES2016",
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "strict": true
+    },
+    "include": ["**/*.ts", "**/*.tsx"]
 }
