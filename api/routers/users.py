@@ -1,5 +1,3 @@
-from datetime import datetime
-from zoneinfo import ZoneInfo
 from fastapi import (
     APIRouter,
     Depends,
@@ -18,8 +16,6 @@ from models.errors import (
 from models.users import (
     UserFormForAccountCreation,
     UserFormForAccountUpdate,
-    UserDataForAccountCreation,
-    UserDataForAccountUpdate,
     UserOut,
     UserOutWithAllInfo,
     UserOutWithHashedPassword
