@@ -1,9 +1,8 @@
 from fastapi import HTTPException, status
 from models.helper_functions.data_to_childout import data_to_childout
 from models.errors import (
-    DuplicateUserError,
+    ChildDoesNotExistError,
     Error,
-    UserDoesNotExistError,
 )
 from models.children import (
     ChildFormData,
@@ -14,6 +13,41 @@ from queries.connection_pool import pool
 
 
 class ChildrenQueries:
+    def get_child_by_id(
+        self,
+        child_id: int
+    ) -> ChildOut | None:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT
+                            id,
+                            firstname,
+                            lastname,
+                            date_of_birth,
+                            gender_id,
+                            created_at,
+                            updated_at,
+                            deleted_at
+                        FROM children
+                        WHERE 1=1
+                            AND id = %s
+                        ;
+                        """,
+                        [child_id]
+                    )
+                    result_data = result.fetchone()
+                    if not result_data:
+                        return None
+                    return data_to_childout(result_data)
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=str(e),
+            )
+
     def create(
         self,
         user_id: int,
@@ -90,39 +124,46 @@ class ChildrenQueries:
                 detail=str(e),
             )
 
-    def get_child_by_id(
+    def update(
         self,
-        child_id: int
+        child_id: int,
+        updated_child_data: ChildFormData,
     ) -> ChildOut | Error:
+        if not self.get_child_by_id(child_id):
+            raise ChildDoesNotExistError(
+                "Could not update child."
+            )
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT
-                            id,
-                            firstname,
-                            lastname,
-                            date_of_birth,
-                            gender_id,
-                            created_at,
-                            updated_at,
-                            deleted_at
-                        FROM children
-                        WHERE 1=1
-                            AND id = %s
-                        ;
+                        UPDATE children
+                        SET
+                            firstname = %s,
+                            lastname = %s,
+                            date_of_birth = %s,
+                            gender_id = %s,
+                            updated_at = NOW()
+                        WHERE id = %s
+                        RETURNING *;
                         """,
-                        [child_id]
+                        [
+                            updated_child_data.firstname,
+                            updated_child_data.lastname,
+                            updated_child_data.date_of_birth,
+                            updated_child_data.gender_id,
+                            child_id
+                        ]
                     )
                     result_data = result.fetchone()
                     if not result_data:
                         return Error(
-                            message="Could not find child."
+                            message="Update child query failed."
                         )
                     return data_to_childout(result_data)
         except Exception as e:
-            return Error(
-                message="New child creation query failed.",
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
                 detail=str(e),
             )

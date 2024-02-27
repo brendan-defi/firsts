@@ -12,3 +12,7 @@ class DuplicateUserError(ValueError):
 
 class UserDoesNotExistError(ValueError):
     pass
+
+
+class ChildDoesNotExistError(ValueError):
+    pass

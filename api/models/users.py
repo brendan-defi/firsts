@@ -12,8 +12,8 @@ class UserFormForAccountCreation(BaseModel):
 
 class UserFormForAccountUpdate(BaseModel):
     username: str | None = None
-    first_name: str | None = None
-    last_name: str | None = None
+    firstname: str | None = None
+    lastname: str | None = None
 
 
 class UserDataForAccountCreation(BaseModel):
@@ -33,8 +33,8 @@ class UserOut(BaseModel):
 
 
 class UserOutWithAllInfo(UserOut):
-    first_name: str
-    last_name: str
+    firstname: str
+    lastname: str
     created_at: datetime
     updated_at: datetime
     deleted_at: datetime | None

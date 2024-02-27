@@ -138,10 +138,7 @@ class UsersQueries:
         user_id: int,
         updated_user_data: UserDataForAccountUpdate,
     ) -> UserOutWithAllInfo | Error:
-        user_with_provided_id = self.get_user_by_id(
-            user_id
-        )
-        if not isinstance(user_with_provided_id, UserOut):
+        if not self.get_user_by_id(user_id):
             raise UserDoesNotExistError(
                 "Could not update user."
             )
@@ -168,8 +165,8 @@ class UsersQueries:
                         """,
                         [
                             updated_user_data.username,
-                            updated_user_data.first_name,
-                            updated_user_data.last_name,
+                            updated_user_data.firstname,
+                            updated_user_data.lastname,
                             updated_user_data.updated_at,
                             user_id
                         ]

@@ -8,7 +8,7 @@ def data_to_user_data_for_account_update(
 ):
     return UserDataForAccountUpdate(
         username=data.username,
-        first_name=data.first_name,
-        last_name=data.last_name,
+        firstname=data.firstname,
+        lastname=data.lastname,
         updated_at=datetime.now(tz=ZoneInfo("GMT")),
     )

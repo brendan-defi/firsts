@@ -70,3 +70,22 @@ def get_single_child_detail(
             message="Could not find child."
         )
     return child
+
+
+@router.put(
+    "/api/children/{child_id}",
+    response_model=ChildOut | Error
+)
+def update_child(
+    child_id: int,
+    form_submission: ChildFormData,
+    repo: ChildrenQueries = Depends(),
+):
+    try:
+        result = repo.update(child_id, form_submission)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
+    return result
