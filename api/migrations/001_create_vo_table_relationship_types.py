@@ -2,12 +2,9 @@ steps = [
     [
         # "Up" SQL statement
         """
-        CREATE TABLE IF NOT EXISTS children (
+        CREATE TABLE IF NOT EXISTS relationship_types (
             id SERIAL PRIMARY KEY,
-            firstname VARCHAR(100) NOT NULL,
-            lastname VARCHAR(100),
-            date_of_birth DATE,
-            gender_id INTEGER REFERENCES genders(id),
+            relationship_type VARCHAR(100) NOT NULL,
             created_at TIMESTAMPTZ NOT NULL,
             updated_at TIMESTAMPTZ NOT NULL,
             deleted_at TIMESTAMPTZ
@@ -15,7 +12,7 @@ steps = [
         """,
         # "Down" SQL statement
         """
-        DROP TABLE IF EXISTS children;
-        """,
+        DROP TABLE IF EXISTS relationship_types;
+        """
     ]
 ]

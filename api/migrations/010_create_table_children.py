@@ -2,12 +2,12 @@ steps = [
     [
         # "Up" SQL statement
         """
-        CREATE TABLE IF NOT EXISTS users (
-            id SERIAL PRIMARY KEY NOT NULL,
-            username VARCHAR(100) NOT NULL UNIQUE,
-            password VARCHAR(100) NOT NULL,
-            firstname VARCHAR(100),
+        CREATE TABLE IF NOT EXISTS children (
+            id SERIAL PRIMARY KEY,
+            firstname VARCHAR(100) NOT NULL,
             lastname VARCHAR(100),
+            date_of_birth DATE,
+            gender_id INTEGER REFERENCES genders(id),
             created_at TIMESTAMPTZ NOT NULL,
             updated_at TIMESTAMPTZ NOT NULL,
             deleted_at TIMESTAMPTZ
@@ -15,7 +15,7 @@ steps = [
         """,
         # "Down" SQL statement
         """
-        DROP TABLE IF EXISTS users;
-        """,
+        DROP TABLE IF EXISTS children;
+        """
     ]
 ]

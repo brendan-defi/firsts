@@ -16,7 +16,7 @@ steps = [
         # "Down" SQL statement
         """
         DROP TABLE IF EXISTS juction_users_children;
-        """,
+        """
     ],
     [
         # "Up" SQL statement
@@ -28,6 +28,6 @@ steps = [
         # "Down" SQL statement
         """
         DROP TABLE IF EXISTS unique_user_child_primary_relationship;
-        """,
+        """
     ]
 ]

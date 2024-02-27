@@ -17,6 +17,6 @@ steps = [
         # "Down" SQL statement
         """
         DROP TABLE IF EXISTS memories;
-        """,
+        """
     ]
 ]

@@ -2,22 +2,6 @@ steps = [
     [
         # "Up" SQL statement
         """
-        CREATE TABLE IF NOT EXISTS relationship_types (
-            id SERIAL PRIMARY KEY,
-            relationship_type VARCHAR(100) NOT NULL,
-            created_at TIMESTAMPTZ NOT NULL,
-            updated_at TIMESTAMPTZ NOT NULL,
-            deleted_at TIMESTAMPTZ
-        );
-        """,
-        # "Down" SQL statement
-        """
-        DROP TABLE IF EXISTS relationship_types;
-        """,
-    ],
-    [
-        # "Up" SQL statement
-        """
         INSERT INTO relationship_types
             (relationship_type, created_at, updated_at)
         VALUES
@@ -37,6 +21,7 @@ steps = [
         """,
         # "Down" SQL statement
         """
-        """,
+        DELETE FROM relationship_types;
+        """
     ]
 ]
