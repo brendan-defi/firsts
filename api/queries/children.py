@@ -1,5 +1,5 @@
 from fastapi import HTTPException, status
-from .helper_functions.result_to_childout import result_to_childout
+from models.helper_functions.data_to_childout import data_to_childout
 from models.errors import (
     DuplicateUserError,
     Error,
@@ -83,7 +83,7 @@ class ChildrenQueries:
                         return Error(
                             message="New child creation query failed."
                         )
-                    return result_to_childout(result_data)
+                    return data_to_childout(result_data)
         except Exception as e:
             return Error(
                 message="New child creation query failed.",
@@ -120,7 +120,7 @@ class ChildrenQueries:
                         return Error(
                             message="Could not find child."
                         )
-                    return result_to_childout(result_data)
+                    return data_to_childout(result_data)
         except Exception as e:
             return Error(
                 message="New child creation query failed.",

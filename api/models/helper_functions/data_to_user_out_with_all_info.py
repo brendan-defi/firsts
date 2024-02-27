@@ -1,6 +1,7 @@
 from models.users import UserOutWithAllInfo
 
-def result_to_user_out_with_all_info(data):
+
+def data_to_user_out_with_all_info(data):
     return UserOutWithAllInfo(
         id=data[0],
         username=data[1],

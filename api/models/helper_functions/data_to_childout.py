@@ -1,7 +1,7 @@
 from models.children import ChildOut
 
 
-def result_to_childout(data):
+def data_to_childout(data):
     return ChildOut(
         id=data[0],
         firstname=data[1],

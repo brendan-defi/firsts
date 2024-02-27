@@ -8,6 +8,10 @@ from fastapi import (
     # Request,
     # Response,
 )
+from models.helper_functions.data_to_user_data_for_account_creation \
+    import data_to_user_data_for_account_creation
+from models.helper_functions.data_to_user_data_for_account_update \
+    import data_to_user_data_for_account_update
 from models.errors import (
     Error,
 )
@@ -31,12 +35,7 @@ def create_user(
     form_submission: UserFormForAccountCreation,
     repo: UsersQueries = Depends(),
 ) -> UserOutWithHashedPassword | Error:
-    new_user_data = UserDataForAccountCreation(
-        username=form_submission.username,
-        hashed_password=form_submission.generate_hashed_password(),
-        created_at=datetime.now(tz=ZoneInfo("GMT")),
-        updated_at=datetime.now(tz=ZoneInfo("GMT"))
-    )
+    new_user_data = data_to_user_data_for_account_creation(form_submission)
     try:
         new_user = repo.create(new_user_data)
     except Exception as e:
@@ -63,12 +62,7 @@ def update_user(
     this method, developer should provide all existing information that exists.
     Failing to provide information will result in accidental data deletion.
     """
-    updated_user_data = UserDataForAccountUpdate(
-        username=form_data.username,
-        first_name=form_data.first_name,
-        last_name=form_data.last_name,
-        updated_at=datetime.now(tz=ZoneInfo("GMT")),
-    )
+    updated_user_data = data_to_user_data_for_account_update(form_data)
     try:
         updated_user = repo.update(id, updated_user_data)
     except Exception as e:
