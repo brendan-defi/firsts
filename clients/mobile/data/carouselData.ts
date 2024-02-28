@@ -1,12 +1,6 @@
-type ImageRequire = number;
+import { CarouselItemType } from "../types/carousel";
 
-type CarouselItem = {
-    id: number,
-    img: ImageRequire,
-    description: string
-};
-
-const carouselItems: CarouselItem[] = [
+const carouselItems: CarouselItemType[] = [
     {
         id: 1,
         img: require("../assets/homescreen/carousel/first-yawn.png"),
@@ -18,3 +12,5 @@ const carouselItems: CarouselItem[] = [
         description: "first smile"
     }
 ]
+
+export default carouselItems;

@@ -1,5 +1,13 @@
-import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+    Image,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import Carousel from "../components/Carousel";
 
 type RootStackParamList = {
     Home: undefined;
@@ -28,13 +36,8 @@ export default function Homescreen({ navigation }: Props) {
                     From first yawns to first steps, Firsts helps you capture
                     your baby's precious first moments.
                 </Text>
-                <View style={styles.carousel}>
-                    <Image
-                        style={styles.carouselImage}
-                        source={require("../assets/homescreen/carousel/first-yawn.png")}
-                    />
-                </View>
             </View>
+            <Carousel />
             <View style={styles.ctaContainer}>
                 <TouchableOpacity
                     onPress={() => navigation.navigate("Signup")}
