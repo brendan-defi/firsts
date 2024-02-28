@@ -6,25 +6,11 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Carousel from "../components/Carousel";
+import { HomescreenProps } from "../types/homescreen";
 
-type RootStackParamList = {
-    Home: undefined;
-    Login: undefined;
-    Signup: undefined;
-};
 
-type HomescreenNavigationProp = NativeStackNavigationProp<
-    RootStackParamList,
-    "Home"
->;
-
-type Props = {
-    navigation: HomescreenNavigationProp;
-};
-
-export default function Homescreen({ navigation }: Props) {
+export default function Homescreen({ navigation }: HomescreenProps) {
     return (
         <SafeAreaView style={styles.mainContainer}>
             <View style={styles.contentContainer}>
