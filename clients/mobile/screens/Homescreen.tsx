@@ -1,7 +1,6 @@
 import {
     Image,
     SafeAreaView,
-    StyleSheet,
     Text,
     TouchableOpacity,
     View,
@@ -10,6 +9,7 @@ import {
 import { HomescreenProps } from "../types/homescreen";
 import { homescreenStyles } from "../styles/homescreen";
 import Carousel from "../components/Carousel";
+import PrimaryButton from "../components/PrimaryButton";
 
 export default function Homescreen({ navigation }: HomescreenProps) {
     return (
@@ -34,12 +34,11 @@ export default function Homescreen({ navigation }: HomescreenProps) {
                         Signup
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate("Login")}
-                    style={homescreenStyles.heroCta}
-                >
-                    <Text style={homescreenStyles.heroCtaText}>Login</Text>
-                </TouchableOpacity>
+                <PrimaryButton
+                    navigation={navigation}
+                    destination="Login"
+                    text="Login"
+                />
             </View>
         </SafeAreaView>
     );
