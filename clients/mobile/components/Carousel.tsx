@@ -6,8 +6,8 @@ import Pagination from "./Pagination";
 import carouselItems from "../data/carouselData";
 import { carouselStyles } from "../styles/carousel";
 
-import createHandleScroll from "../handlers/handleScroll";
-import createHandleViewableItemsChanged from "../handlers/handleViewableItemsChanged";
+import createHandleScroll from "../handlers/carousel/handleScroll";
+import createHandleViewableItemsChanged from "../handlers/carousel/handleViewableItemsChanged";
 
 export default function Carousel() {
     const [index, setIndex] = useState(0);
