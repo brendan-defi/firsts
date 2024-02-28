@@ -10,6 +10,7 @@ import { HomescreenProps } from "../types/homescreen";
 import { homescreenStyles } from "../styles/homescreen";
 import Carousel from "../components/Carousel";
 import PrimaryButton from "../components/PrimaryButton";
+import SecondaryButton from "../components/SecondaryButton";
 
 export default function Homescreen({ navigation }: HomescreenProps) {
     return (
@@ -26,14 +27,11 @@ export default function Homescreen({ navigation }: HomescreenProps) {
             </View>
             <Carousel />
             <View style={homescreenStyles.ctaContainer}>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate("Signup")}
-                    style={homescreenStyles.secondaryCta}
-                >
-                    <Text style={homescreenStyles.secondaryCtaText}>
-                        Signup
-                    </Text>
-                </TouchableOpacity>
+                <SecondaryButton
+                    navigation={navigation}
+                    destination="Signup"
+                    text="Signup"
+                />
                 <PrimaryButton
                     navigation={navigation}
                     destination="Login"
