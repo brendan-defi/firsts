@@ -1,28 +1,16 @@
-import { Dimensions, Image, StyleSheet, View } from "react-native";
+import { Image, View } from "react-native";
 import { CarouselItemProps } from "../types/carousel";
+import { carouselItemStyles } from "../styles/carousel";
 
-const { width } = Dimensions.get("screen");
 
 export default function CarouselItem({ item }: CarouselItemProps) {
     return (
-        <View style={styles.carouselItemContainer}>
+        <View style={carouselItemStyles.carouselItemContainer}>
             <Image
                 source={item.img}
                 alt={`${item.description}`}
-                style={styles.carouselImage}
+                style={carouselItemStyles.carouselImage}
             />
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    carouselItemContainer: {
-        width: width,
-        height: width,
-    },
-    carouselImage: {
-        width: "100%",
-        height: "100%",
-        resizeMode: "contain",
-    },
-});

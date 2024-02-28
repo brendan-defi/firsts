@@ -4,12 +4,12 @@ import {
     FlatList,
     NativeScrollEvent,
     NativeSyntheticEvent,
-    StyleSheet,
     View,
 } from "react-native";
 import carouselItems from "../data/carouselData";
 import CarouselItem from "./CarouselItem";
 import Pagination from "./Pagination";
+import { carouselStyles } from "../styles/carousel";
 
 export default function Carousel() {
     const [index, setIndex] = useState(0);
@@ -41,7 +41,7 @@ export default function Carousel() {
     }).current;
 
     return (
-        <View style={styles.container}>
+        <View style={carouselStyles.container}>
             <FlatList
                 data={carouselItems}
                 renderItem={({ item }) => <CarouselItem item={item} />}
@@ -53,18 +53,9 @@ export default function Carousel() {
                 onScroll={handleScroll}
                 onViewableItemsChanged={handleViewableItemsChanged}
                 viewabilityConfig={viewabilityConfig}
-                style={styles.images}
+                style={carouselStyles.images}
             />
             <Pagination data={carouselItems} scrollX={scrollX} index={index} />
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        width: "100%",
-    },
-    images: {
-        marginBottom: 5,
-    },
-});

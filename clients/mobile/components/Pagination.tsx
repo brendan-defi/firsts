@@ -1,11 +1,12 @@
-import { Animated, Dimensions, StyleSheet, View } from "react-native";
+import { Animated, Dimensions, View } from "react-native";
 import { PaginationProps } from "../types/carousel";
+import { paginationStyles } from "../styles/carousel";
 
 const { width } = Dimensions.get("screen");
 
 export default function Pagination({ data, index, scrollX }: PaginationProps) {
     return (
-        <View style={styles.container}>
+        <View style={paginationStyles.container}>
             {data.map((_, idx) => {
                 const inputRange = [
                     (idx - 1) * width,
@@ -26,9 +27,9 @@ export default function Pagination({ data, index, scrollX }: PaginationProps) {
                 return (
                     <Animated.View
                         style={[
-                            styles.dot,
+                            paginationStyles.dot,
                             { width: dotWidth, opacity },
-                            idx === index && styles.dotActive,
+                            idx === index && paginationStyles.dotActive,
                         ]}
                         key={idx.toString()}
                     />
@@ -37,23 +38,3 @@ export default function Pagination({ data, index, scrollX }: PaginationProps) {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: "row",
-        width: "100%",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    dot: {
-        backgroundColor: "#8965AC",
-        // backgroundColor: "#F5F1E3",
-        borderRadius: 6,
-        marginHorizontal: 3,
-        width: 12,
-        height: 12,
-    },
-    dotActive: {
-        backgroundColor: "#8965AC",
-    },
-});
