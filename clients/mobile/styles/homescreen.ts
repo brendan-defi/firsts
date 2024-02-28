@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-const defaultFontSize = 16;
+import { defaultFontSize } from "./defaultFont";
 
 export const homescreenStyles = StyleSheet.create({
     mainContainer: {
@@ -26,43 +26,9 @@ export const homescreenStyles = StyleSheet.create({
         marginHorizontal: 45,
         marginBottom: 20,
     },
-    carousel: {
-        width: 380,
-        height: 380,
-    },
-    carouselImage: {
-        width: "100%",
-        height: "100%",
-    },
     ctaContainer: {
         width: "100%",
         flexDirection: "row",
         justifyContent: "space-evenly",
-    },
-    heroCta: {
-        backgroundColor: "#8965AC",
-        borderRadius: 10,
-        width: 120,
-        height: 55,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    heroCtaText: {
-        color: "#F5F1E3",
-        fontSize: defaultFontSize,
-    },
-    secondaryCta: {
-        backgroundColor: "#F5F1E3",
-        borderColor: "#8965AC",
-        borderWidth: 1,
-        borderRadius: 10,
-        width: 120,
-        height: 55,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    secondaryCtaText: {
-        color: "#8965AC",
-        fontSize: defaultFontSize,
     },
 });
