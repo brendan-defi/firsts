@@ -1,44 +1,26 @@
 import { useRef, useState } from "react";
-import {
-    Animated,
-    FlatList,
-    NativeScrollEvent,
-    NativeSyntheticEvent,
-    View,
-} from "react-native";
-import carouselItems from "../data/carouselData";
+import { Animated, FlatList, View } from "react-native";
+
 import CarouselItem from "./CarouselItem";
 import Pagination from "./Pagination";
+import carouselItems from "../data/carouselData";
 import { carouselStyles } from "../styles/carousel";
+
+import createHandleScroll from "../handlers/handleScroll";
+import createHandleViewableItemsChanged from "../handlers/handleViewableItemsChanged";
 
 export default function Carousel() {
     const [index, setIndex] = useState(0);
 
     const scrollX = useRef(new Animated.Value(0)).current;
-    const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-        Animated.event(
-            [
-                {
-                    nativeEvent: {
-                        contentOffset: {
-                            x: scrollX,
-                        },
-                    },
-                },
-            ],
-            {
-                useNativeDriver: false,
-            }
-        )(event);
-    };
-
-    const handleViewableItemsChanged = useRef(({ viewableItems }: any) => {
-        setIndex(viewableItems[0].index);
-    }).current;
-
     const viewabilityConfig = useRef({
         itemVisiblePercentThreshold: 50,
     }).current;
+    const handleViewableItemsChanged = useRef(
+        createHandleViewableItemsChanged(setIndex)
+    ).current;
+
+    const handleScroll = createHandleScroll(scrollX);
 
     return (
         <View style={carouselStyles.container}>
