@@ -9,7 +9,7 @@ import { HomescreenProps } from "../types/homescreen";
 import { homescreenStyles } from "../styles/homescreen";
 
 import Carousel from "../components/Carousel";
-import AuthNavigationButton from "../components/AuthNavigationButton";
+import AuthNavigationButton from "../components/Buttons/AuthNavigationButton";
 import { navigationButtonStyles } from "../styles/navigationButton";
 
 export default function Homescreen({ navigation }: HomescreenProps) {
