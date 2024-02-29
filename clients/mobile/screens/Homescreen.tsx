@@ -7,6 +7,7 @@ import {
 
 import { HomescreenProps } from "../types/homescreen";
 import { homescreenStyles } from "../styles/homescreen";
+
 import Carousel from "../components/Carousel";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";

@@ -1,11 +1,30 @@
-// import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { StyleSheet, Text, SafeAreaView, View, TextInput } from "react-native";
 
-export default function Signup() {
+import { SignupProps } from "../types/signup";
+
+import PrimaryButton from "../components/PrimaryButton";
+
+export default function Signup( {navigation}: SignupProps) {
+    const [formInput, setFormInput] = useState("")
+
+
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <Text>Signup</Text>
-        </View>
+            <View>
+                <TextInput
+                    style={styles.formField}
+                    onChangeText={setFormInput}
+                    value={formInput}
+                />
+            </View>
+            <PrimaryButton
+                navigation={navigation}
+                destination="Login"
+                text="Continue"
+            />
+        </SafeAreaView>
     );
 }
 
@@ -16,4 +35,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
+    formField: {
+        width: 200,
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+        borderColor: "#8965AC",
+    }
 });
