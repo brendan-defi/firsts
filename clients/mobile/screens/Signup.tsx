@@ -3,7 +3,8 @@ import { StyleSheet, Text, SafeAreaView, View, TextInput } from "react-native";
 
 import { SignupProps } from "../types/signup";
 
-import PrimaryButton from "../components/PrimaryButton";
+import AuthNavigationButton from "../components/AuthNavigationButton";
+import { navigationButtonStyles } from "../styles/navigationButton";
 
 export default function Signup( {navigation}: SignupProps) {
     const [formInput, setFormInput] = useState("")
@@ -19,10 +20,12 @@ export default function Signup( {navigation}: SignupProps) {
                     value={formInput}
                 />
             </View>
-            <PrimaryButton
+            <AuthNavigationButton
                 navigation={navigation}
                 destination="Login"
                 text="Continue"
+                buttonStyle={navigationButtonStyles.primaryCta}
+                textStyle={navigationButtonStyles.primaryCtaText}
             />
         </SafeAreaView>
     );

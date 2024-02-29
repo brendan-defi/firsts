@@ -9,8 +9,8 @@ import { HomescreenProps } from "../types/homescreen";
 import { homescreenStyles } from "../styles/homescreen";
 
 import Carousel from "../components/Carousel";
-import PrimaryButton from "../components/PrimaryButton";
-import SecondaryButton from "../components/SecondaryButton";
+import AuthNavigationButton from "../components/AuthNavigationButton";
+import { navigationButtonStyles } from "../styles/navigationButton";
 
 export default function Homescreen({ navigation }: HomescreenProps) {
     return (
@@ -27,15 +27,19 @@ export default function Homescreen({ navigation }: HomescreenProps) {
             </View>
             <Carousel />
             <View style={homescreenStyles.ctaContainer}>
-                <SecondaryButton
+                <AuthNavigationButton
                     navigation={navigation}
                     destination="Signup"
                     text="Signup"
+                    buttonStyle={navigationButtonStyles.secondaryCta}
+                    textStyle={navigationButtonStyles.secondaryCtaText}
                 />
-                <PrimaryButton
+                <AuthNavigationButton
                     navigation={navigation}
                     destination="Login"
                     text="Login"
+                    buttonStyle={navigationButtonStyles.primaryCta}
+                    textStyle={navigationButtonStyles.primaryCtaText}
                 />
             </View>
         </SafeAreaView>

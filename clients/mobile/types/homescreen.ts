@@ -1,16 +1,8 @@
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-type RootStackParamList = {
-    Home: undefined;
-    Login: undefined;
-    Signup: undefined;
-};
+import { AuthStackParamList } from "./authStackParamList";
 
-type HomescreenNavigationProp = NativeStackNavigationProp<
-    RootStackParamList,
+export type HomescreenProps = NativeStackScreenProps<
+    AuthStackParamList,
     "Home"
 >;
-
-export type HomescreenProps = {
-    navigation: HomescreenNavigationProp;
-};
