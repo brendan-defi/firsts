@@ -11,7 +11,7 @@ export default function SignupUsername({ navigation }: SignupProps) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text>Signup</Text>
+            <Text>Signup Username</Text>
             <View>
                 <TextInput
                     style={styles.formField}

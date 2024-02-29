@@ -11,7 +11,7 @@ export default function SignupPassword( {navigation}: SignupProps) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text>Signup</Text>
+            <Text>Signup Password</Text>
             <View>
                 <TextInput
                     style={styles.formField}

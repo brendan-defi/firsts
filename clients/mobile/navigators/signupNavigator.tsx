@@ -11,7 +11,6 @@ export default function SignupNavigator() {
     return (
         <SignupStack.Navigator
             initialRouteName="SignupUsername"
-
             screenOptions={{
                 headerShown: false,
             }}
@@ -19,6 +18,11 @@ export default function SignupNavigator() {
             <SignupStack.Screen
                 name="SignupUsername"
                 component={SignupUsername}
+                options={{
+                    title: "Hello",
+                    headerShown: false,
+                    headerBackTitleVisible: false,
+                }}
             />
             <SignupStack.Screen
                 name="SignupPassword"
