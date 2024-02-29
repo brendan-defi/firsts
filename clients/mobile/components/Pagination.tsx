@@ -18,6 +18,11 @@ export default function Pagination({ data, index, scrollX }: PaginationProps) {
                     outputRange: [12, 30, 12],
                     extrapolate: "clamp",
                 });
+                const dotHeight = scrollX.interpolate({
+                    inputRange,
+                    outputRange: [12, 15, 12],
+                    extrapolate: "clamp",
+                });
                 const opacity = scrollX.interpolate({
                     inputRange,
                     outputRange: [0.5, 1, 0.5],
@@ -28,7 +33,7 @@ export default function Pagination({ data, index, scrollX }: PaginationProps) {
                     <Animated.View
                         style={[
                             paginationStyles.dot,
-                            { width: dotWidth, opacity },
+                            { width: dotWidth, height: dotHeight, opacity },
                             idx === index && paginationStyles.dotActive,
                         ]}
                         key={idx.toString()}

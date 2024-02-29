@@ -40,6 +40,5 @@ export const paginationStyles = StyleSheet.create({
     },
     dotActive: {
         backgroundColor: "#8965AC",
-        height: 15,
     },
 });
