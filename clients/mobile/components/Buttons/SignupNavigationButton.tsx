@@ -1,9 +1,9 @@
 import { Text, TouchableOpacity } from "react-native";
 
-import { AuthButtonProps } from "../types/authNavigationButton";
+import { SignupButtonProps } from "../../types/signupNavigationButton";
 
-export default function AuthNavigationButton(
-    { navigation, destination, text, buttonStyle, textStyle}: AuthButtonProps
+export default function SignupNavigationButton(
+    { navigation, destination, text, buttonStyle, textStyle}: SignupButtonProps
 ) {
     return (
         <TouchableOpacity
