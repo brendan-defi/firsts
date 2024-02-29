@@ -1,9 +1,4 @@
 import { ButtonProps } from "./navigationButton";
+import { AuthStackParamList } from "./authStackParamList";
 
 export type AuthButtonProps = ButtonProps<AuthStackParamList>
-
-type AuthStackParamList = {
-    Home: undefined;
-    Login: undefined;
-    Signup: undefined;
-};
