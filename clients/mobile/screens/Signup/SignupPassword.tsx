@@ -3,7 +3,7 @@ import { StyleSheet, Text, SafeAreaView, View, TextInput } from "react-native";
 
 import { SignupProps } from "../../types/signup";
 
-import AuthNavigationButton from "../../components/Buttons/AuthNavigationButton";
+import SignupNavigationButton from "../../components/Buttons/SignupNavigationButton";
 import { navigationButtonStyles } from "../../styles/navigationButton";
 
 export default function SignupPassword( {navigation}: SignupProps) {
@@ -19,7 +19,7 @@ export default function SignupPassword( {navigation}: SignupProps) {
                     value={formInput}
                 />
             </View>
-            <AuthNavigationButton
+            <SignupNavigationButton
                 navigation={navigation}
                 destination="Login"
                 text="Continue"
