@@ -2,13 +2,13 @@ import React, { createContext, useContext, useState } from "react";
 
 import {
     SignupContextProviderProps,
-    SignupContext,
+    SignupState,
     SignupInfo,
 } from "../types/signupContext";
 
-const SignupContext = createContext<SignupContext | null>(null);
+const SignupContext = createContext<SignupState | null>(null);
 
-export default function SignupContextProvider({
+export function SignupContextProvider({
     children,
 }: SignupContextProviderProps) {
     const [signupInfo, setSignupInfo] = useState<SignupInfo>({

@@ -8,13 +8,14 @@ import {
     Pressable,
 } from "react-native";
 
-import { SignupProps } from "../../types/signup";
+import { useSignupContext } from "../../contexts/signupContext";
 import SignupNavigationButton from "../../components/Buttons/SignupNavigationButton";
+import { SignupProps } from "../../types/signup";
 import { navigationButtonStyles } from "../../styles/navigationButton";
 import { signupStyles } from "../../styles/signup";
 
 export default function SignupPassword({ navigation }: SignupProps) {
-    const [formInput, setFormInput] = useState("");
+    const { signupInfo, setSignupInfo } = useSignupContext();
 
     return (
         <SafeAreaView style={signupStyles.container}>
@@ -27,8 +28,13 @@ export default function SignupPassword({ navigation }: SignupProps) {
             <View style={signupStyles.formContainer}>
                 <Text style={signupStyles.formHeader}>Password</Text>
                 <TextInput
-                    onChangeText={setFormInput}
-                    value={formInput}
+                    onChangeText={(text) =>
+                        setSignupInfo({
+                            ...signupInfo,
+                            password: text,
+                        })
+                    }
+                    value={signupInfo.password}
                     placeholder="P@ssW0rd!"
                     autoCapitalize="none"
                     autoCorrect={false}

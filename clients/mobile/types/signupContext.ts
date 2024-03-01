@@ -2,7 +2,7 @@ export type SignupContextProviderProps = {
     children: React.ReactNode;
 }
 
-export type SignupContext = {
+export type SignupState = {
     signupInfo: SignupInfo;
     setSignupInfo: React.Dispatch<React.SetStateAction<SignupInfo>>
 }

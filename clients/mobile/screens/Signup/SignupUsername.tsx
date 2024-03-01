@@ -8,13 +8,14 @@ import {
     Pressable,
 } from "react-native";
 
-import { SignupProps } from "../../types/signup";
+import { useSignupContext } from "../../contexts/signupContext";
 import SignupNavigationButton from "../../components/Buttons/SignupNavigationButton";
+import { SignupProps } from "../../types/signup";
 import { navigationButtonStyles } from "../../styles/navigationButton";
 import { signupStyles } from "../../styles/signup";
 
 export default function SignupUsername({ navigation }: SignupProps) {
-    const [formInput, setFormInput] = useState("");
+    const { signupInfo, setSignupInfo } = useSignupContext();
 
     return (
         <SafeAreaView style={signupStyles.container}>
@@ -27,8 +28,13 @@ export default function SignupUsername({ navigation }: SignupProps) {
             <View style={signupStyles.formContainer}>
                 <Text style={signupStyles.formHeader}>Username</Text>
                 <TextInput
-                    onChangeText={setFormInput}
-                    value={formInput}
+                    onChangeText={(text) =>
+                        setSignupInfo({
+                            ...signupInfo,
+                            username: text,
+                        })
+                    }
+                    value={signupInfo.username}
                     placeholder="snuggie_wuggie"
                     autoCapitalize="none"
                     autoCorrect={false}
