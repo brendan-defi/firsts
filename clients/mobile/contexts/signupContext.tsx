@@ -14,6 +14,7 @@ export function SignupContextProvider({
     const [signupInfo, setSignupInfo] = useState<SignupInfo>({
         username: "",
         password: "",
+        passwordConfirmation: "",
     });
 
     return (

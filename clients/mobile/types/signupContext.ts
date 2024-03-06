@@ -10,4 +10,5 @@ export type SignupState = {
 export type SignupInfo = {
     username: string;
     password: string;
+    passwordConfirmation: string;
 }
