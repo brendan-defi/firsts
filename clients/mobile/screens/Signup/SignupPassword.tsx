@@ -10,7 +10,7 @@ import {
 
 import { useSignupContext } from "../../contexts/signupContext";
 import SignupNavigationButton from "../../components/Buttons/SignupNavigationButton";
-import { SignupProps } from "../../types/signup";
+import { SignupProps } from "../../types/signupProps";
 import { navigationButtonStyles } from "../../styles/navigationButton";
 import { signupStyles } from "../../styles/signup";
 
