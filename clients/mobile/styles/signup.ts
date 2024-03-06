@@ -10,18 +10,21 @@ export const signupStyles = StyleSheet.create({
         justifyContent: "flex-start",
     },
     titleContainer: {
-        flex: 0.5,
+        flex: 0.4,
     },
     title: {
         width: 400,
         height: 150,
     },
     formContainer: {
-        flex: 0.5,
+        flex: 0.6,
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
         alignItems: "flex-start",
+    },
+    inputContainer: {
+        marginVertical: 5,
     },
     formHeader: {
         fontSize: defaultFontSize * 1.2,

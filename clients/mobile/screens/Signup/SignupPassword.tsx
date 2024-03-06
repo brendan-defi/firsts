@@ -26,21 +26,40 @@ export default function SignupPassword({ navigation }: SignupProps) {
                 />
             </View>
             <View style={signupStyles.formContainer}>
-                <Text style={signupStyles.formHeader}>Password</Text>
-                <TextInput
-                    onChangeText={(text) =>
-                        setSignupInfo({
-                            ...signupInfo,
-                            password: text,
-                        })
-                    }
-                    value={signupInfo.password}
-                    placeholder="P@ssW0rd!"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    style={signupStyles.formField}
-                />
+                <View style={signupStyles.inputContainer}>
+                    <Text style={signupStyles.formHeader}>Password</Text>
+                    <TextInput
+                        onChangeText={(text) =>
+                            setSignupInfo({
+                                ...signupInfo,
+                                password: text,
+                            })
+                        }
+                        value={signupInfo.password}
+                        placeholder="P@ssW0rd!"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        style={signupStyles.formField}
+                    />
+                </View>
+                <View style={signupStyles.inputContainer}>
+                    <Text style={signupStyles.formHeader}>Confirm Password</Text>
+                    <TextInput
+                        onChangeText={(text) =>
+                            setSignupInfo({
+                                ...signupInfo,
+                                passwordConfirmation: text,
+                            })
+                        }
+                        value={signupInfo.passwordConfirmation}
+                        placeholder="P@ssW0rd!"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        style={signupStyles.formField}
+                    />
+                </View>
             </View>
+
             <View style={signupStyles.ctaContainer}>
                 <SignupNavigationButton
                     navigation={navigation}
