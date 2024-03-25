@@ -1,3 +1,4 @@
+from authenticator import authenticator
 from fastapi import (
     APIRouter,
     Depends,
@@ -6,8 +7,8 @@ from fastapi import (
     # Request,
     # Response,
 )
-from models.helper_functions.data_to_user_data_for_account_creation \
-    import data_to_user_data_for_account_creation
+from api.models.helper_functions.prep_form_data_for_account_creation \
+    import prep_form_data_for_account_creation
 from models.helper_functions.data_to_user_data_for_account_update \
     import data_to_user_data_for_account_update
 from models.errors import (
@@ -31,7 +32,7 @@ def create_user(
     form_submission: UserFormForAccountCreation,
     repo: UsersQueries = Depends(),
 ) -> UserOutWithHashedPassword | Error:
-    new_user_data = data_to_user_data_for_account_creation(form_submission)
+    new_user_data = prep_form_data_for_account_creation(form_submission)
     try:
         new_user = repo.create(new_user_data)
     except Exception as e:

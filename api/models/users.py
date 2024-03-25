@@ -6,8 +6,8 @@ class UserFormForAccountCreation(BaseModel):
     username: str
     password: str
 
-    def generate_hashed_password(self):
-        return self.password
+    # def generate_hashed_password(self):
+    #     return self.password
 
 
 class UserFormForAccountUpdate(BaseModel):
