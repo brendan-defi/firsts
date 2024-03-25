@@ -30,6 +30,7 @@ services:
         environment:
             CORS_HOST: ${CORS_HOST}
             SIGNING_KEY: ${SIGNING_KEY}
+            HASHING_ALGO: ${HASHING_ALGO}
             WAIT_HOSTS: postgres:5432
             WAIT_HOSTS_BEFORE: 5
             WAIT_TIMEOUT: 240
