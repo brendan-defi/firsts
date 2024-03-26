@@ -1,17 +1,16 @@
 from datetime import datetime, timedelta
-from fastapi import APIRouter, Depends, HTTPException, Response, Request, status
+from fastapi import APIRouter, Cookie, Depends, HTTPException, Response, Request, status
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from jose import jwt, JWTError
 from passlib.context import CryptContext
 
 from utils.constants import HASHING_ALGO, SIGNING_KEY
 from models.auth import Token
-from models.users import UserFormForAccountCreation, UserDataForAccountCreation
+from models.users import UserOut
 from queries.users import UsersQueries
 
 
-bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_bearer = OAuth2PasswordBearer(tokenUrl="authenticator/token")
+oauth2_bearer = OAuth2PasswordBearer(tokenUrl="token", auto_error=False)
 
 
 class Authenticator():
@@ -34,7 +33,7 @@ class Authenticator():
         self.users_queries = users_queries
 
     def hash_password(self, password: str) -> str:
-        return bcrypt_context.hash(password)
+        return self.cryptography_context.hash(password)
 
     def authenticate_user(
             self,
@@ -51,7 +50,12 @@ class Authenticator():
             return None
         return user_account
 
-    def create_access_token(self, username: str, user_id: int, session_duration: timedelta):
+    def create_access_token(
+            self,
+            username: str,
+            user_id: int,
+            session_duration: timedelta
+        ) -> str:
         expires = datetime.utcnow() + session_duration
         jwt_data = {
             "sub": username,
@@ -59,6 +63,38 @@ class Authenticator():
             "exp": expires,
         }
         return jwt.encode(jwt_data, self.signing_key, self.hashing_algo)
+
+    async def get_current_user(
+        self,
+        request: Request,
+        bearer_token: str | None = Depends(oauth2_bearer)
+    ) -> UserOut:
+        cookie_token: str | None = request.cookies.get(self.cookie_name)
+        token_to_decode = cookie_token if cookie_token else bearer_token
+        if not token_to_decode:
+            raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Could not validate user",
+                )
+        try:
+            payload = jwt.decode(
+                token_to_decode,
+                self.signing_key,
+                self.hashing_algo
+            )
+            username = payload.get("sub")
+            user_id = payload.get("id")
+            if not username or not user_id:
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Could not validate user",
+                )
+            return UserOut(id=user_id, username=username)
+        except JWTError:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Could not validate user",
+            )
 
     async def login(
             self,
@@ -78,6 +114,7 @@ class Authenticator():
             user_account.id,
             timedelta(days=14)
         )
+        self.create_user_cookie(token, request, response)
         return Token(access_token=token, token_type="bearer")
 
 
@@ -95,6 +132,31 @@ class Authenticator():
             router.delete(f"/{self.path}", response_model=Token)(self.logout)
             self._router = router
         return self._router
+
+    def _get_cookie_settings(self, request: Request):
+        headers = request.headers
+        if "origin" in headers and "localhost" in headers["origin"]:
+            samesite = "lax"
+            secure = False
+        else:
+            samesite = "none"
+            secure = True
+        return samesite, secure
+
+    def create_user_cookie(
+        self,
+        encoded_jwt: str,
+        request: Request,
+        response: Response,
+    ):
+        samesite, secure = self._get_cookie_settings(request)
+        response.set_cookie(
+            key=self.cookie_name,
+            value=encoded_jwt,
+            httponly=True,
+            samesite=samesite,
+            secure=secure,
+        )
 
 
 authenticator = Authenticator(
