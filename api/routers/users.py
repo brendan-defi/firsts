@@ -7,7 +7,7 @@ from fastapi import (
     # Request,
     # Response,
 )
-from api.models.helper_functions.prep_form_data_for_account_creation \
+from models.helper_functions.prep_form_data_for_account_creation \
     import prep_form_data_for_account_creation
 from models.helper_functions.data_to_user_data_for_account_update \
     import data_to_user_data_for_account_update
