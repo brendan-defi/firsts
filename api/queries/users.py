@@ -24,7 +24,7 @@ class UsersQueries:
     def get_user_by_username(
         self,
         username: str
-    ) -> UserOut | None:
+    ) -> UserOutWithHashedPassword | None:
         """
         Queries the database for a user with the provided username.
         If a user exists with that username, the user entity is returned as a
@@ -37,7 +37,7 @@ class UsersQueries:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT id, username
+                        SELECT id, username, password
                         FROM users
                         WHERE username = %s;
                         """,
@@ -46,7 +46,7 @@ class UsersQueries:
                     result_data = result.fetchone()
                     if not result_data:
                         return None
-                    return data_to_userout(result_data)
+                    return data_to_user_out_with_hashed_password(result_data)
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
