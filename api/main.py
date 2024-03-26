@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from utils.constants import CORS_HOST
+from authenticator import authenticator
 from routers import users, children
 
 
@@ -17,6 +18,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+app.include_router(authenticator.router, tags=["Auth"])
 app.include_router(users.router, tags=["Users"])
 app.include_router(children.router, tags=["Children"])
