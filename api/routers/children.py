@@ -8,6 +8,8 @@ from fastapi import (
     # Request,
     # Response,
 )
+
+from authenticator import authenticator
 from models.errors import (
     Error,
 )
@@ -16,7 +18,10 @@ from models.children import (
     ChildIn,
     ChildOut
 )
+from models.users import UserOut
 from queries.children import ChildrenQueries
+from utils.helper_functions.validate_authorized_user \
+    import validate_authorized_user
 
 
 router = APIRouter()
@@ -31,7 +36,9 @@ def create_child(
     relationship_type_id: int,
     form_submission: ChildFormData,
     repo: ChildrenQueries = Depends(),
+    user_data: UserOut = Depends(authenticator.get_current_user)
 ):
+    validate_authorized_user(user_id, user_data.id)
     new_child_data = ChildIn(
         firstname=form_submission.firstname,
         lastname=form_submission.lastname,
