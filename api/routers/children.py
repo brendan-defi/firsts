@@ -64,6 +64,7 @@ def create_child(
 def get_single_child_detail(
     child_id: int,
     repo: ChildrenQueries = Depends(),
+    user_data: UserOut = Depends(authenticator.get_current_user)
 ):
     try:
         child = repo.get_child_by_id(child_id)
@@ -87,6 +88,7 @@ def update_child(
     child_id: int,
     form_submission: ChildFormData,
     repo: ChildrenQueries = Depends(),
+    user_data: UserOut = Depends(authenticator.get_current_user)
 ):
     try:
         result = repo.update(child_id, form_submission)
