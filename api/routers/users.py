@@ -22,9 +22,9 @@ from models.users import (
     UserOutWithAllInfo,
     UserOutWithHashedPassword
 )
-from queries.users import UsersQueries
-from utils.helper_functions.validate_authorized_user \
+from routers.helper_functions.validate_authorized_user \
     import validate_authorized_user
+from queries.users import UsersQueries
 
 
 router = APIRouter()

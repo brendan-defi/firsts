@@ -19,9 +19,9 @@ from models.children import (
     ChildOut
 )
 from models.users import UserOut
-from queries.children import ChildrenQueries
-from utils.helper_functions.validate_authorized_user \
+from routers.helper_functions.validate_authorized_user \
     import validate_authorized_user
+from queries.children import ChildrenQueries
 
 
 router = APIRouter()
@@ -90,6 +90,12 @@ def update_child(
     repo: ChildrenQueries = Depends(),
     user_data: UserOut = Depends(authenticator.get_current_user)
 ):
+    child_owner = repo.get_userid_of_childs_primary_relationship(child_id)
+    if not child_owner or child_owner.id != user_data.id:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Unable to update child."
+        )
     try:
         result = repo.update(child_id, form_submission)
     except Exception as e:

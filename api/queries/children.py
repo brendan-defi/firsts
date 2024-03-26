@@ -1,5 +1,6 @@
 from fastapi import HTTPException, status
 from models.helper_functions.data_to_childout import data_to_childout
+from models.helper_functions.data_to_userout import data_to_userout
 from models.errors import (
     ChildDoesNotExistError,
     Error,
@@ -9,6 +10,7 @@ from models.children import (
     ChildIn,
     ChildOut
 )
+from models.users import UserOut
 from queries.connection_pool import pool
 
 
@@ -162,6 +164,37 @@ class ChildrenQueries:
                             message="Update child query failed."
                         )
                     return data_to_childout(result_data)
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=str(e),
+            )
+
+    def get_userid_of_childs_primary_relationship(
+        self,
+        child_id: int
+    ) -> UserOut | None:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT
+                            juc.user_id,
+                            u.username
+                        FROM junction_users_children juc
+                        JOIN users u on u.id = juc.user_id
+                        WHERE 1=1
+                            AND juc.child_id = %s
+                            AND juc.is_primary_relationship is TRUE
+                        ;
+                        """,
+                        [child_id]
+                    )
+                    result_data = result.fetchone()
+                    if not result_data:
+                        return None
+                    return data_to_userout(result_data)
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
