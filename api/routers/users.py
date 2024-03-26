@@ -1,4 +1,3 @@
-from authenticator import authenticator
 from fastapi import (
     APIRouter,
     Depends,
@@ -7,6 +6,8 @@ from fastapi import (
     # Request,
     # Response,
 )
+
+from authenticator import authenticator
 from models.helper_functions.prep_form_data_for_account_creation \
     import prep_form_data_for_account_creation
 from models.helper_functions.data_to_user_data_for_account_update \
@@ -22,6 +23,8 @@ from models.users import (
     UserOutWithHashedPassword
 )
 from queries.users import UsersQueries
+from utils.helper_functions.validate_authorized_user \
+    import validate_authorized_user
 
 
 router = APIRouter()
@@ -60,11 +63,7 @@ def update_user(
     this method, developer should provide all existing information that exists.
     Failing to provide information will result in accidental data deletion.
     """
-    if id != user_data.id:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Unauthorized user"
-        )
+    validate_authorized_user(id, user_data.id)
     updated_user_data = data_to_user_data_for_account_update(form_data)
     try:
         updated_user = repo.update(id, updated_user_data)
