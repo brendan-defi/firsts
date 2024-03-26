@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from fastapi import APIRouter, Cookie, Depends, HTTPException, Response, Request, status
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from jose import jwt, JWTError
@@ -6,7 +6,7 @@ from passlib.context import CryptContext
 
 from utils.constants import HASHING_ALGO, SIGNING_KEY
 from models.auth import Token
-from models.users import UserOut
+from models.users import UserOut, UserOutWithHashedPassword
 from queries.users import UsersQueries
 
 
@@ -32,6 +32,52 @@ class Authenticator():
         self.cryptography_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
         self.users_queries = users_queries
 
+    # Auth Routes
+    @property
+    def router(self):
+        if self._router == None:
+            router = APIRouter()
+            router.post(f"/{self.path}", response_model=Token)(self.login)
+            router.delete(f"/{self.path}", response_model=bool)(self.logout)
+            self._router = router
+        return self._router
+
+    async def login(
+        self,
+        response: Response,
+        request: Request,
+        form: OAuth2PasswordRequestForm = Depends(),
+    ):
+        user_account = self.authenticate_user(form.username, form.password)
+        if not user_account:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Incorrect username or password",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        token = self.create_access_token(
+            user_account.username,
+            user_account.id,
+            timedelta(days=14)
+        )
+        self.create_user_cookie(token, request, response)
+        return Token(access_token=token, token_type="bearer")
+
+    async def logout(
+        self,
+        request: Request,
+        response: Response
+    ):
+        samesite, secure = self._get_cookie_settings(request)
+        response.delete_cookie(
+            key=self.cookie_name,
+            httponly=True,
+            samesite=samesite,
+            secure=secure,
+        )
+        return True
+
+    # Helper Functions
     def hash_password(self, password: str) -> str:
         return self.cryptography_context.hash(password)
 
@@ -39,7 +85,7 @@ class Authenticator():
             self,
             username: str,
             password: str,
-        ):
+        ) -> UserOutWithHashedPassword | None:
         user_account = self.users_queries.get_user_by_username(username)
         if not user_account:
             return None
@@ -56,7 +102,7 @@ class Authenticator():
             user_id: int,
             session_duration: timedelta
         ) -> str:
-        expires = datetime.utcnow() + session_duration
+        expires = datetime.now(timezone.utc) + session_duration
         jwt_data = {
             "sub": username,
             "id": user_id,
@@ -95,43 +141,6 @@ class Authenticator():
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Could not validate user",
             )
-
-    async def login(
-            self,
-            response: Response,
-            request: Request,
-            form: OAuth2PasswordRequestForm = Depends(),
-        ):
-        user_account = self.authenticate_user(form.username, form.password)
-        if not user_account:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Incorrect username or password",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
-        token = self.create_access_token(
-            user_account.username,
-            user_account.id,
-            timedelta(days=14)
-        )
-        self.create_user_cookie(token, request, response)
-        return Token(access_token=token, token_type="bearer")
-
-
-
-
-
-    async def logout(self):
-        pass
-
-    @property
-    def router(self):
-        if self._router == None:
-            router = APIRouter()
-            router.post(f"/{self.path}", response_model=Token)(self.login)
-            router.delete(f"/{self.path}", response_model=Token)(self.logout)
-            self._router = router
-        return self._router
 
     def _get_cookie_settings(self, request: Request):
         headers = request.headers
