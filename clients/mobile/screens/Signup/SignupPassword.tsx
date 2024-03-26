@@ -15,30 +15,11 @@ import { SignupProps } from "../../types/signupProps";
 import { navigationButtonStyles } from "../../styles/navigationButton";
 import { signupStyles } from "../../styles/signup";
 
+import handleSignupFormSubmission from "../../handlers/handleSignupFormSubmission";
+
 export default function SignupPassword({ navigation }: SignupProps) {
     const { signupInfo, setSignupInfo } = useSignupContext();
     const [error, setError] = useState("");
-
-    const handleSignupFormSubmission = async () => {
-        if (signupInfo.password !== signupInfo.passwordConfirmation) {
-            setError("Password and Password Confirmation do not match.")
-            return;
-        }
-        const signupUrl = `http://localhost:8000/api/users`
-        const fetchConfig = {
-            method: "POST",
-            body: JSON.stringify(signupInfo),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }
-        const response = await fetch(signupUrl, fetchConfig)
-        if (!response.ok) {
-            const error = await response.json()
-            setError(error.detail)
-        }
-        return response.status;
-    }
 
     return (
         <SafeAreaView style={signupStyles.container}>
@@ -67,7 +48,9 @@ export default function SignupPassword({ navigation }: SignupProps) {
                     />
                 </View>
                 <View style={signupStyles.inputContainer}>
-                    <Text style={signupStyles.formHeader}>Confirm Password</Text>
+                    <Text style={signupStyles.formHeader}>
+                        Confirm Password
+                    </Text>
                     <TextInput
                         onChangeText={(text) => {
                             setError("");
@@ -88,10 +71,14 @@ export default function SignupPassword({ navigation }: SignupProps) {
 
             <View style={signupStyles.ctaContainer}>
                 <TouchableOpacity
-                    onPress={handleSignupFormSubmission}
+                    onPress={() => {
+                        handleSignupFormSubmission(signupInfo, setError);
+                    }}
                     style={navigationButtonStyles.primaryCta}
                 >
-                    <Text style={navigationButtonStyles.primaryCtaText}>Register</Text>
+                    <Text style={navigationButtonStyles.primaryCtaText}>
+                        Register
+                    </Text>
                 </TouchableOpacity>
                 <Pressable
                     style={signupStyles.secondaryCta}
