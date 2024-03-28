@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { defaultFontSize } from "./defaultFont";
 
-export const signupStyles = StyleSheet.create({
+export const authStyles = StyleSheet.create({
     container: {
         flexDirection: "column",
         flex: 1,

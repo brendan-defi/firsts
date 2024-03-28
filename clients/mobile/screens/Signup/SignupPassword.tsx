@@ -15,7 +15,7 @@ import handleSignup from "../../handlers/handleSignup";
 
 import { SignupProps } from "../../types/signupProps";
 import { navigationButtonStyles } from "../../styles/navigationButton";
-import { signupStyles } from "../../styles/signup";
+import { authStyles } from "../../styles/authentication";
 
 
 export default function SignupPassword({ navigation }: SignupProps) {
@@ -33,16 +33,16 @@ export default function SignupPassword({ navigation }: SignupProps) {
     }
 
     return (
-        <SafeAreaView style={signupStyles.container}>
-            <View style={signupStyles.titleContainer}>
+        <SafeAreaView style={authStyles.container}>
+            <View style={authStyles.titleContainer}>
                 <Image
-                    style={signupStyles.title}
+                    style={authStyles.title}
                     source={require("../../assets/homescreen/title.png")}
                 />
             </View>
-            <View style={signupStyles.formContainer}>
-                <View style={signupStyles.inputContainer}>
-                    <Text style={signupStyles.formHeader}>Password</Text>
+            <View style={authStyles.formContainer}>
+                <View style={authStyles.inputContainer}>
+                    <Text style={authStyles.formHeader}>Password</Text>
                     <TextInput
                         onChangeText={(text) => {
                             setError("");
@@ -55,11 +55,11 @@ export default function SignupPassword({ navigation }: SignupProps) {
                         placeholder="P@ssW0rd!"
                         autoCapitalize="none"
                         autoCorrect={false}
-                        style={signupStyles.formField}
+                        style={authStyles.formField}
                     />
                 </View>
-                <View style={signupStyles.inputContainer}>
-                    <Text style={signupStyles.formHeader}>
+                <View style={authStyles.inputContainer}>
+                    <Text style={authStyles.formHeader}>
                         Confirm Password
                     </Text>
                     <TextInput
@@ -74,13 +74,13 @@ export default function SignupPassword({ navigation }: SignupProps) {
                         placeholder="P@ssW0rd!"
                         autoCapitalize="none"
                         autoCorrect={false}
-                        style={signupStyles.formField}
+                        style={authStyles.formField}
                     />
                 </View>
                 {error && <Text>{error}</Text>}
             </View>
 
-            <View style={signupStyles.ctaContainer}>
+            <View style={authStyles.ctaContainer}>
                 <TouchableOpacity
                     onPress={handleSignupFormSubmission}
                     style={navigationButtonStyles.primaryCta}
@@ -90,7 +90,7 @@ export default function SignupPassword({ navigation }: SignupProps) {
                     </Text>
                 </TouchableOpacity>
                 <Pressable
-                    style={signupStyles.secondaryCta}
+                    style={authStyles.secondaryCta}
                     onPress={() => navigation.navigate("Login")}
                 >
                     <Text>Already have an account? Login</Text>

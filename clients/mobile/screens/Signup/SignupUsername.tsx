@@ -12,21 +12,21 @@ import { useSignupContext } from "../../contexts/signupContext";
 import SignupNavigationButton from "../../components/Buttons/SignupNavigationButton";
 import { SignupProps } from "../../types/signupProps";
 import { navigationButtonStyles } from "../../styles/navigationButton";
-import { signupStyles } from "../../styles/signup";
+import { authStyles } from "../../styles/authentication";
 
 export default function SignupUsername({ navigation }: SignupProps) {
     const { signupInfo, setSignupInfo } = useSignupContext();
 
     return (
-        <SafeAreaView style={signupStyles.container}>
-            <View style={signupStyles.titleContainer}>
+        <SafeAreaView style={authStyles.container}>
+            <View style={authStyles.titleContainer}>
                 <Image
-                    style={signupStyles.title}
+                    style={authStyles.title}
                     source={require("../../assets/homescreen/title.png")}
                 />
             </View>
-            <View style={signupStyles.formContainer}>
-                <Text style={signupStyles.formHeader}>Username</Text>
+            <View style={authStyles.formContainer}>
+                <Text style={authStyles.formHeader}>Username</Text>
                 <TextInput
                     onChangeText={(text) =>
                         setSignupInfo({
@@ -38,10 +38,10 @@ export default function SignupUsername({ navigation }: SignupProps) {
                     placeholder="snuggie_wuggie"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    style={signupStyles.formField}
+                    style={authStyles.formField}
                 />
             </View>
-            <View style={signupStyles.ctaContainer}>
+            <View style={authStyles.ctaContainer}>
                 <SignupNavigationButton
                     navigation={navigation}
                     destination="SignupPassword"
@@ -50,7 +50,7 @@ export default function SignupUsername({ navigation }: SignupProps) {
                     textStyle={navigationButtonStyles.primaryCtaText}
                 />
                 <Pressable
-                    style={signupStyles.secondaryCta}
+                    style={authStyles.secondaryCta}
                     onPress={() => navigation.navigate("Login")}
                 >
                     <Text>Already have an account? Login</Text>
