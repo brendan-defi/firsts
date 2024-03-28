@@ -30,7 +30,6 @@ export default function SignupPassword({ navigation }: SignupProps) {
             return;
         }
         await storeBearerToken(bearerToken)
-        console.log({bearerToken})
     }
 
     return (
