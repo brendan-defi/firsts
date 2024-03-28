@@ -24,7 +24,7 @@ export const authStyles = StyleSheet.create({
         alignItems: "flex-start",
     },
     inputContainer: {
-        marginVertical: 5,
+        marginVertical: 10,
     },
     formHeader: {
         fontSize: defaultFontSize * 1.2,
@@ -32,12 +32,17 @@ export const authStyles = StyleSheet.create({
         fontWeight: "600",
     },
     formField: {
+        flexDirection: "row",
+        justifyContent: "space-between",
         width: 300,
         height: 40,
         marginTop: 5,
         padding: 10,
         borderWidth: 1,
         borderColor: "#8965AC",
+    },
+    formTextInput: {
+        flex: 1,
     },
     ctaContainer: {
         display: "flex",
@@ -48,4 +53,9 @@ export const authStyles = StyleSheet.create({
         marginTop: 15,
         color: "#708090",
     },
+    visibilityIcon: {
+        fontSize: defaultFontSize,
+        color: "#8965AC",
+        marginLeft: 10,
+    }
 });

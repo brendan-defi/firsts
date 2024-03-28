@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     Pressable,
 } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { useAuthContext } from "../contexts/authContext";
 import handleLogin from "../handlers/handleLogin";
@@ -19,22 +20,23 @@ import { authStyles } from "../styles/authentication";
 
 const blankLoginInfo: LoginData = {
     username: "",
-    password: ""
-}
+    password: "",
+};
 
 export default function Login({ navigation }: LoginProps) {
     const { storeBearerToken } = useAuthContext();
-    const [loginInfo, setLoginInfo] = useState<LoginData>(blankLoginInfo)
+    const [loginInfo, setLoginInfo] = useState<LoginData>(blankLoginInfo);
     const [error, setError] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleLoginFormSubmission = async () => {
         const bearerToken = await handleLogin(loginInfo);
         if (bearerToken instanceof Error) {
-            setError(bearerToken.message)
+            setError(bearerToken.message);
             return;
         }
-        await storeBearerToken(bearerToken)
-    }
+        await storeBearerToken(bearerToken);
+    };
 
     return (
         <SafeAreaView style={authStyles.container}>
@@ -64,21 +66,28 @@ export default function Login({ navigation }: LoginProps) {
                 </View>
                 <View style={authStyles.inputContainer}>
                     <Text style={authStyles.formHeader}>Password</Text>
-                    <TextInput
-                        onChangeText={(text) => {
-                            setError("");
-                            setLoginInfo({
-                                ...loginInfo,
-                                password: text,
-                            });
-                        }}
-                        value={loginInfo.password}
-                        placeholder="Please enter your password..."
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        secureTextEntry={true}
-                        style={authStyles.formField}
-                    />
+                    <View style={authStyles.formField}>
+                        <TextInput
+                            onChangeText={(text) => {
+                                setError("");
+                                setLoginInfo({
+                                    ...loginInfo,
+                                    password: text,
+                                });
+                            }}
+                            value={loginInfo.password}
+                            placeholder="Please enter your password..."
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            secureTextEntry={!showPassword}
+                            style={authStyles.formTextInput}
+                        />
+                        <MaterialCommunityIcons
+                            name={showPassword ? "eye-off" : "eye"}
+                            style={authStyles.visibilityIcon}
+                            onPress={() => setShowPassword(!showPassword)}
+                        />
+                    </View>
                 </View>
                 {error && <Text>{error}</Text>}
             </View>
