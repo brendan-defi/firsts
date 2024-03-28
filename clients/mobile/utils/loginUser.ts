@@ -1,11 +1,11 @@
-import { SignupInfo } from "../types/signupContext";
+import { LoginData } from "../types/loginFormData";
 
 export default async function loginUser(
-    signupFormData: SignupInfo
+    formData: LoginData
 ): Promise<string | Error> {
     const loginCreds = new FormData();
-    loginCreds.append("username", signupFormData.username);
-    loginCreds.append("password", signupFormData.password);
+    loginCreds.append("username", formData.username);
+    loginCreds.append("password", formData.password);
     const loginUrl = `http://localhost:8000/token`;
     const loginConfig = {
         method: "POST",
