@@ -1,49 +1,26 @@
+import registerNewUser from "../utils/registerNewUser";
+import loginUser from "../utils/loginUser";
+
 import { SignupInfo } from "../types/signupContext";
 
 export default async function handleSignup(
-    signupFormData: SignupInfo,
-    errorSetter: React.Dispatch<React.SetStateAction<string>>
-) {
+    signupFormData: SignupInfo
+): Promise<string | Error> {
     // FORM VALIDATION
     if (signupFormData.password !== signupFormData.passwordConfirmation) {
-        errorSetter("Password inputs do not match.");
-        return null;
+        return Error("Password inputs do not match.");
     }
 
     // SIGNUP
-    const signupUrl = `http://localhost:8000/api/users`;
-    const signupConfig = {
-        method: "POST",
-        body: JSON.stringify(signupFormData),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    };
-    const signupResponse = await fetch(signupUrl, signupConfig);
-    if (!signupResponse.ok) {
-        const signupError = await signupResponse.json();
-        errorSetter(String(signupError.detail));
-        return null;
+    const signupResponse = await registerNewUser(signupFormData);
+    if (signupResponse instanceof Error) {
+        return Error(`Could not register new user. ${signupResponse.message}`);
     }
 
     // LOGIN
-    const loginCreds = new FormData();
-    loginCreds.append("username", signupFormData.username);
-    loginCreds.append("password", signupFormData.password);
-    const loginUrl = `http://localhost:8000/token`;
-    const loginConfig = {
-        method: "POST",
-        body: loginCreds,
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-        },
-    };
-    const loginResponse = await fetch(loginUrl, loginConfig);
-    if (!loginResponse.ok) {
-        const loginError = await loginResponse.json();
-        errorSetter(String(loginError.detail));
-        return null;
+    const loginResponse = await loginUser(signupFormData);
+    if (loginResponse instanceof Error) {
+        return Error(`Could not log in new user. ${loginResponse.message}`);
     }
-    const loginData = await loginResponse.json();
-    return loginData.access_token;
+    return loginResponse;
 }

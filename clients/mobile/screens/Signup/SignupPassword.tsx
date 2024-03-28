@@ -24,8 +24,13 @@ export default function SignupPassword({ navigation }: SignupProps) {
     const [error, setError] = useState("");
 
     const handleSignupFormSubmission = async () => {
-        const bearerToken = await handleSignup(signupInfo, setError);
+        const bearerToken = await handleSignup(signupInfo);
+        if (bearerToken instanceof Error) {
+            setError(bearerToken.message)
+            return;
+        }
         await storeBearerToken(bearerToken)
+        console.log({bearerToken})
     }
 
     return (
