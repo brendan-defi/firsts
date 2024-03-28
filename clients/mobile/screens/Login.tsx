@@ -30,6 +30,10 @@ export default function Login({ navigation }: LoginProps) {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleLoginFormSubmission = async () => {
+        if (!loginInfo.username || !loginInfo.password) {
+            setError("Please enter your username and password.")
+            return;
+        }
         const bearerToken = await handleLogin(loginInfo);
         if (bearerToken instanceof Error) {
             setError(bearerToken.message);

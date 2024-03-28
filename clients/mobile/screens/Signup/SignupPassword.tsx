@@ -27,6 +27,13 @@ export default function SignupPassword({ navigation }: SignupProps) {
     const [showPasswordConf, setShowPasswordConf] = useState(false);
 
     const handleSignupFormSubmission = async () => {
+        if (
+            !signupInfo.username ||
+            !signupInfo.password
+        ) {
+            setError("Registration requires a username and password.");
+            return;
+        }
         const bearerToken = await handleSignup(signupInfo);
         if (bearerToken instanceof Error) {
             setError(bearerToken.message);
