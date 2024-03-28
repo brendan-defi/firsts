@@ -1,13 +1,13 @@
 // import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 
-import Logout from "../components/Logout";
+import LogoutLink from "../components/LogoutLink";
 
 export default function Dashboard() {
     return (
         <View style={styles.container}>
             <Text>Dashboard</Text>
-            <Logout />
+            <LogoutLink />
         </View>
     );
 }

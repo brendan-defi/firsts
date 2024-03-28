@@ -2,7 +2,7 @@ import { Text, TouchableOpacity } from "react-native";
 
 import { useAuthContext } from "../contexts/authContext";
 
-export default function Logout() {
+export default function LogoutLink() {
     const { deleteBearerToken } = useAuthContext();
 
     return (
