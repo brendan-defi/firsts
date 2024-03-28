@@ -10,16 +10,25 @@ import {
 } from "react-native";
 
 import { useSignupContext } from "../../contexts/signupContext";
-// import SignupNavigationButton from "../../components/Buttons/SignupNavigationButton";
+import { useAuthContext } from "../../contexts/authContext";
+import handleSignup from "../../handlers/handleSignup";
+
 import { SignupProps } from "../../types/signupProps";
 import { navigationButtonStyles } from "../../styles/navigationButton";
 import { signupStyles } from "../../styles/signup";
 
-import handleSignupFormSubmission from "../../handlers/handleSignupFormSubmission";
 
 export default function SignupPassword({ navigation }: SignupProps) {
     const { signupInfo, setSignupInfo } = useSignupContext();
+    const { storeBearerToken } = useAuthContext();
+
     const [error, setError] = useState("");
+
+    const handleSignupFormSubmission = async () => {
+        console.log("button clicked")
+        const bearerToken = await handleSignup(signupInfo, setError);
+        storeBearerToken(bearerToken)
+    }
 
     return (
         <SafeAreaView style={signupStyles.container}>
@@ -71,9 +80,7 @@ export default function SignupPassword({ navigation }: SignupProps) {
 
             <View style={signupStyles.ctaContainer}>
                 <TouchableOpacity
-                    onPress={() => {
-                        handleSignupFormSubmission(signupInfo, setError);
-                    }}
+                    onPress={handleSignupFormSubmission}
                     style={navigationButtonStyles.primaryCta}
                 >
                     <Text style={navigationButtonStyles.primaryCtaText}>

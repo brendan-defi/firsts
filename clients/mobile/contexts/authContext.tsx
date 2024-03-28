@@ -26,16 +26,16 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         return await SecureStore.getItemAsync("bearerToken");
     };
 
-    useEffect(() => {
-        const checkToken = async () => {
-            const token = await getBearerToken();
-            if (token) {
-                setIsLoggedIn(true);
-            }
-        };
+    // useEffect(() => {
+    //     const checkToken = async () => {
+    //         const token = await getBearerToken();
+    //         if (token) {
+    //             setIsLoggedIn(true);
+    //         }
+    //     };
 
-        checkToken();
-    }, []);
+    //     checkToken();
+    // }, []);
 
     return (
         <AuthContext.Provider

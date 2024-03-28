@@ -1,13 +1,13 @@
 import { SignupInfo } from "../types/signupContext";
 
-export default async function handleSignupFormSubmission(
+export default async function handleSignup(
     signupFormData: SignupInfo,
     errorSetter: React.Dispatch<React.SetStateAction<string>>
 ) {
     // FORM VALIDATION
     if (signupFormData.password !== signupFormData.passwordConfirmation) {
         errorSetter("Password inputs do not match.");
-        return;
+        return null;
     }
 
     // SIGNUP
@@ -23,7 +23,7 @@ export default async function handleSignupFormSubmission(
     if (!signupResponse.ok) {
         const signupError = await signupResponse.json();
         errorSetter(String(signupError.detail));
-        return signupResponse.status;
+        return null;
     }
 
     // LOGIN
@@ -42,11 +42,8 @@ export default async function handleSignupFormSubmission(
     if (!loginResponse.ok) {
         const loginError = await loginResponse.json();
         errorSetter(String(loginError.detail));
-        return loginResponse.status;
+        return null;
     }
     const loginData = await loginResponse.json();
-
-    // TOKEN STORAGE
-    // TODO
-
+    return loginData.access_token;
 }
