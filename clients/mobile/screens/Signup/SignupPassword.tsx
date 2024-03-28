@@ -21,13 +21,11 @@ import { signupStyles } from "../../styles/signup";
 export default function SignupPassword({ navigation }: SignupProps) {
     const { signupInfo, setSignupInfo } = useSignupContext();
     const { storeBearerToken } = useAuthContext();
-
     const [error, setError] = useState("");
 
     const handleSignupFormSubmission = async () => {
-        console.log("button clicked")
         const bearerToken = await handleSignup(signupInfo, setError);
-        storeBearerToken(bearerToken)
+        await storeBearerToken(bearerToken)
     }
 
     return (
