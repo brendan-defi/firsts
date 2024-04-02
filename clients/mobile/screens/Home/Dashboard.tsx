@@ -1,19 +1,25 @@
 // import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Text, View } from "react-native";
+
+import { dashboardStyles } from "../../styles/dashboard";
 
 export default function Dashboard() {
     return (
-        <View style={styles.container}>
-            <Text>Dashboard</Text>
-        </View>
+        <SafeAreaView style={dashboardStyles.container}>
+            <View style={dashboardStyles.contentContainer}>
+                <View style={dashboardStyles.titleContainer}>
+                    <Text style={dashboardStyles.title}>Your Recent Firsts</Text>
+                    <Text>See All</Text>
+                </View>
+            </View>
+            <View style={dashboardStyles.divider} />
+            <View style={dashboardStyles.contentContainer}>
+                <View style={dashboardStyles.titleContainer}>
+                    <Text style={dashboardStyles.title}>Friends' Recent Firsts</Text>
+                    <Text>See All</Text>
+                </View>
+            </View>
+        </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-});
