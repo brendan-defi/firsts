@@ -3,8 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SignupStackParamList } from "../types/signupStackParamList";
 import { SignupContextProvider } from "../contexts/signupContext";
 
-import SignupUsername from "../screens/Auth/Signup/SignupUsername";
-import SignupPassword from "../screens/Auth/Signup/SignupPassword";
+import { SignupUsername, SignupPassword } from "../screens"
 
 const SignupStack = createNativeStackNavigator<SignupStackParamList>();
 

@@ -3,11 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { AppStackParamList } from "../types/appStackParamList";
 
-import Dashboard from "../screens/Home/Dashboard";
-import Calendar from "../screens/Home/Calendar";
-import CreateMemory from "../screens/Home/CreateMemory";
-import List from "../screens/Home/List";
-import Settings from "../screens/Home/Settings";
+import { Dashboard, Calendar, CreateMemory, List, Settings } from "../screens";
 
 const AppTabs = createBottomTabNavigator<AppStackParamList>();
 
