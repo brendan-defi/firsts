@@ -2,13 +2,13 @@ import { Image, View } from "react-native";
 import { CarouselItemProps } from "../../types/carousel";
 import { carouselItemStyles } from "../../styles/carousel";
 
-export default function SplashCarouselItem({ item }: CarouselItemProps) {
+export default function CarouselItem({ item, style }: CarouselItemProps) {
     return (
         <View style={carouselItemStyles.carouselItemContainer}>
             <Image
                 source={item.img}
                 alt={`${item.description}`}
-                style={carouselItemStyles.carouselImage}
+                style={style}
             />
         </View>
     );

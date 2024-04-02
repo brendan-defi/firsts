@@ -1,4 +1,4 @@
-import { Animated } from "react-native";
+import { Animated, StyleProp, ImageStyle } from "react-native";
 
 type ImageRequire = number;
 
@@ -10,6 +10,7 @@ export type CarouselItemType = {
 
 export type CarouselItemProps = {
     item: CarouselItemType;
+    style:StyleProp<ImageStyle>;
 };
 
 export type PaginationProps = {
@@ -17,3 +18,9 @@ export type PaginationProps = {
     scrollX: Animated.Value;
     index: number;
 };
+
+// type CarouselItemStyle = {
+//     width: string;
+//     height: string;
+//     resizeMode: string;
+// }
