@@ -6,7 +6,7 @@ import {
 } from "react-native";
 
 import { HomescreenProps } from "../../types/homescreen";
-import { homescreenStyles } from "../../styles/homescreen";
+import { homescreenStyles } from "../../styles/splashscreen";
 
 import SplashCarousel from "../../components/Carousels/SplashCarousel";
 import AuthNavigationButton from "../../components/Buttons/AuthNavigationButton";

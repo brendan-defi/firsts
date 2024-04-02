@@ -1,6 +1,6 @@
 import { Animated, Dimensions, View } from "react-native";
 import { PaginationProps } from "../types/carousel";
-import { paginationStyles } from "../styles/carousel";
+import { paginationStyles } from "../styles/splashCarousel";
 
 const { width } = Dimensions.get("screen");
 

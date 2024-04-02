@@ -18,9 +18,3 @@ export type PaginationProps = {
     scrollX: Animated.Value;
     index: number;
 };
-
-// type CarouselItemStyle = {
-//     width: string;
-//     height: string;
-//     resizeMode: string;
-// }

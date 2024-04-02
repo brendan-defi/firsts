@@ -4,10 +4,12 @@ import { Animated, FlatList, View } from "react-native";
 import createHandleScroll from "../../handlers/carousel/handleScroll";
 import createHandleViewableItemsChanged from "../../handlers/carousel/handleViewableItemsChanged";
 import { DashboardCarouselProps } from "../../types/dashboardCarousel";
-import { carouselItemStyles, carouselStyles } from "../../styles/carousel";
+import { carouselItemStyles, carouselStyles } from "../../styles/dashboardCarousel";
 import CarouselItem from "./CarouselItem";
 
-export default function DashboardCarousel( { carouselItems }: DashboardCarouselProps ) {
+export default function DashboardCarousel({
+    carouselItems,
+}: DashboardCarouselProps) {
     const [index, setIndex] = useState(0);
 
     const scrollX = useRef(new Animated.Value(0)).current;
@@ -21,10 +23,15 @@ export default function DashboardCarousel( { carouselItems }: DashboardCarouselP
     const handleScroll = createHandleScroll(scrollX);
 
     return (
-        <View>
+        <View style={carouselStyles.container}>
             <FlatList
                 data={carouselItems}
-                renderItem={ ({ item}) => <CarouselItem item={item} style={carouselItemStyles.carouselImage} />}
+                renderItem={({ item }) => (
+                    <CarouselItem
+                        item={item}
+                        style={carouselItemStyles.carouselImage}
+                    />
+                )}
                 keyExtractor={(item) => item.id.toString()}
                 horizontal
                 pagingEnabled
@@ -36,6 +43,5 @@ export default function DashboardCarousel( { carouselItems }: DashboardCarouselP
                 style={carouselStyles.images}
             />
         </View>
-    )
-
+    );
 }

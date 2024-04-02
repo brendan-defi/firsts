@@ -4,7 +4,7 @@ import { Animated, FlatList, View } from "react-native";
 import CarouselItem from "./CarouselItem";
 import Pagination from "../Pagination";
 import carouselItems from "../../data/carouselData";
-import { carouselItemStyles, carouselStyles } from "../../styles/carousel";
+import { carouselItemStyles, carouselStyles } from "../../styles/splashCarousel";
 
 import createHandleScroll from "../../handlers/carousel/handleScroll";
 import createHandleViewableItemsChanged from "../../handlers/carousel/handleViewableItemsChanged";
