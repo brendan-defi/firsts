@@ -4,8 +4,13 @@ import { Animated, FlatList, View } from "react-native";
 import createHandleScroll from "../../handlers/carousel/handleScroll";
 import createHandleViewableItemsChanged from "../../handlers/carousel/handleViewableItemsChanged";
 import { DashboardCarouselProps } from "../../types/dashboardCarousel";
-import { carouselItemStyles, carouselStyles } from "../../styles/dashboardCarousel";
+import {
+    carouselItemStyles,
+    carouselStyles,
+} from "../../styles/dashboardCarousel";
+
 import CarouselItem from "./CarouselItem";
+import Pagination from "../Pagination";
 
 export default function DashboardCarousel({
     carouselItems,
@@ -42,6 +47,7 @@ export default function DashboardCarousel({
                 viewabilityConfig={viewabilityConfig}
                 style={carouselStyles.images}
             />
+            <Pagination data={carouselItems} scrollX={scrollX} index={index} />
         </View>
     );
 }

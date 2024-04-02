@@ -25,6 +25,7 @@ export const dashboardStyles = StyleSheet.create({
     },
     title: {
         fontSize: defaultFontSize * 1.25,
+        color: "#8965AC",
     },
     divider: {
         marginVertical: 15,

@@ -4,7 +4,10 @@ import { Animated, FlatList, View } from "react-native";
 import CarouselItem from "./CarouselItem";
 import Pagination from "../Pagination";
 import carouselItems from "../../data/carouselData";
-import { carouselItemStyles, carouselStyles } from "../../styles/splashCarousel";
+import {
+    carouselItemStyles,
+    carouselStyles,
+} from "../../styles/splashCarousel";
 
 import createHandleScroll from "../../handlers/carousel/handleScroll";
 import createHandleViewableItemsChanged from "../../handlers/carousel/handleViewableItemsChanged";
@@ -26,7 +29,12 @@ export default function SplashCarousel() {
         <View style={carouselStyles.container}>
             <FlatList
                 data={carouselItems}
-                renderItem={({ item }) => <CarouselItem item={item} style={carouselItemStyles.carouselImage}/>}
+                renderItem={({ item }) => (
+                    <CarouselItem
+                        item={item}
+                        style={carouselItemStyles.carouselImage}
+                    />
+                )}
                 keyExtractor={(item) => item.id.toString()}
                 horizontal
                 pagingEnabled
