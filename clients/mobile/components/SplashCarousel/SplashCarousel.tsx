@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { Animated, FlatList, View } from "react-native";
 
-import CarouselItem from "./CarouselItem";
+import SplashCarouselItem from "./SplashCarouselItem";
 import Pagination from "../Pagination";
 import carouselItems from "../../data/carouselData";
 import { carouselStyles } from "../../styles/carousel";
@@ -9,7 +9,7 @@ import { carouselStyles } from "../../styles/carousel";
 import createHandleScroll from "../../handlers/carousel/handleScroll";
 import createHandleViewableItemsChanged from "../../handlers/carousel/handleViewableItemsChanged";
 
-export default function Carousel() {
+export default function SplashCarousel() {
     const [index, setIndex] = useState(0);
 
     const scrollX = useRef(new Animated.Value(0)).current;
@@ -26,7 +26,7 @@ export default function Carousel() {
         <View style={carouselStyles.container}>
             <FlatList
                 data={carouselItems}
-                renderItem={({ item }) => <CarouselItem item={item} />}
+                renderItem={({ item }) => <SplashCarouselItem item={item} />}
                 keyExtractor={(item) => item.id.toString()}
                 horizontal
                 pagingEnabled

@@ -8,7 +8,7 @@ import {
 import { HomescreenProps } from "../../types/homescreen";
 import { homescreenStyles } from "../../styles/homescreen";
 
-import Carousel from "../../components/SplashCarousel/Carousel";
+import SplashCarousel from "../../components/SplashCarousel/SplashCarousel";
 import AuthNavigationButton from "../../components/Buttons/AuthNavigationButton";
 import { navigationButtonStyles } from "../../styles/navigationButton";
 
@@ -25,7 +25,7 @@ export default function SplashScreen({ navigation }: HomescreenProps) {
                     your baby's precious first moments.
                 </Text>
             </View>
-            <Carousel />
+            <SplashCarousel />
             <View style={homescreenStyles.ctaContainer}>
                 <AuthNavigationButton
                     navigation={navigation}
