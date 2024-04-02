@@ -8,11 +8,11 @@ import {
     Pressable,
 } from "react-native";
 
-import { useSignupContext } from "../../contexts/signupContext";
-import SignupNavigationButton from "../../components/Buttons/SignupNavigationButton";
-import { SignupProps } from "../../types/signupProps";
-import { navigationButtonStyles } from "../../styles/navigationButton";
-import { authStyles } from "../../styles/authentication";
+import { useSignupContext } from "../../../contexts/signupContext";
+import SignupNavigationButton from "../../../components/Buttons/SignupNavigationButton";
+import { SignupProps } from "../../../types/signupProps";
+import { navigationButtonStyles } from "../../../styles/navigationButton";
+import { authStyles } from "../../../styles/authentication";
 
 export default function SignupUsername({ navigation }: SignupProps) {
     const { signupInfo, setSignupInfo } = useSignupContext();
@@ -22,7 +22,7 @@ export default function SignupUsername({ navigation }: SignupProps) {
             <View style={authStyles.titleContainer}>
                 <Image
                     style={authStyles.title}
-                    source={require("../../assets/homescreen/title.png")}
+                    source={require("../../../assets/homescreen/title.png")}
                 />
             </View>
             <View style={authStyles.formContainer}>

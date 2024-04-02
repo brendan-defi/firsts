@@ -10,13 +10,13 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { useSignupContext } from "../../contexts/signupContext";
-import { useAuthContext } from "../../contexts/authContext";
-import handleSignup from "../../handlers/handleSignup";
+import { useSignupContext } from "../../../contexts/signupContext";
+import { useAuthContext } from "../../../contexts/authContext";
+import handleSignup from "../../../handlers/handleSignup";
 
-import { SignupProps } from "../../types/signupProps";
-import { navigationButtonStyles } from "../../styles/navigationButton";
-import { authStyles } from "../../styles/authentication";
+import { SignupProps } from "../../../types/signupProps";
+import { navigationButtonStyles } from "../../../styles/navigationButton";
+import { authStyles } from "../../../styles/authentication";
 
 export default function SignupPassword({ navigation }: SignupProps) {
     const { signupInfo, setSignupInfo } = useSignupContext();
@@ -47,7 +47,7 @@ export default function SignupPassword({ navigation }: SignupProps) {
             <View style={authStyles.titleContainer}>
                 <Image
                     style={authStyles.title}
-                    source={require("../../assets/homescreen/title.png")}
+                    source={require("../../../assets/homescreen/title.png")}
                 />
             </View>
             <View style={authStyles.formContainer}>

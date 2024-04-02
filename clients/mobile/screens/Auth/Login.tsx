@@ -10,13 +10,13 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { useAuthContext } from "../contexts/authContext";
-import handleLogin from "../handlers/handleLogin";
+import { useAuthContext } from "../../contexts/authContext";
+import handleLogin from "../../handlers/handleLogin";
 
-import { LoginProps } from "../types/loginProps";
-import { LoginData } from "../types/loginFormData";
-import { navigationButtonStyles } from "../styles/navigationButton";
-import { authStyles } from "../styles/authentication";
+import { LoginProps } from "../../types/loginProps";
+import { LoginData } from "../../types/loginFormData";
+import { navigationButtonStyles } from "../../styles/navigationButton";
+import { authStyles } from "../../styles/authentication";
 
 const blankLoginInfo: LoginData = {
     username: "",
@@ -47,7 +47,7 @@ export default function Login({ navigation }: LoginProps) {
             <View style={authStyles.titleContainer}>
                 <Image
                     style={authStyles.title}
-                    source={require("../assets/homescreen/title.png")}
+                    source={require("../../assets/homescreen/title.png")}
                 />
             </View>
             <View style={authStyles.formContainer}>
