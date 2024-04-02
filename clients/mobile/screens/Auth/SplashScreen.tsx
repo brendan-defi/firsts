@@ -8,7 +8,7 @@ import {
 import { HomescreenProps } from "../../types/homescreen";
 import { homescreenStyles } from "../../styles/homescreen";
 
-import Carousel from "../../components/Carousel";
+import Carousel from "../../components/SplashCarousel/Carousel";
 import AuthNavigationButton from "../../components/Buttons/AuthNavigationButton";
 import { navigationButtonStyles } from "../../styles/navigationButton";
 

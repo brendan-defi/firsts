@@ -2,12 +2,12 @@ import { useRef, useState } from "react";
 import { Animated, FlatList, View } from "react-native";
 
 import CarouselItem from "./CarouselItem";
-import Pagination from "./Pagination";
-import carouselItems from "../data/carouselData";
-import { carouselStyles } from "../styles/carousel";
+import Pagination from "../Pagination";
+import carouselItems from "../../data/carouselData";
+import { carouselStyles } from "../../styles/carousel";
 
-import createHandleScroll from "../handlers/carousel/handleScroll";
-import createHandleViewableItemsChanged from "../handlers/carousel/handleViewableItemsChanged";
+import createHandleScroll from "../../handlers/carousel/handleScroll";
+import createHandleViewableItemsChanged from "../../handlers/carousel/handleViewableItemsChanged";
 
 export default function Carousel() {
     const [index, setIndex] = useState(0);
