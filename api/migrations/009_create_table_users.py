@@ -8,6 +8,7 @@ steps = [
             password VARCHAR(100) NOT NULL,
             firstname VARCHAR(100),
             lastname VARCHAR(100),
+            completed_nux BOOLEAN,
             created_at TIMESTAMPTZ NOT NULL,
             updated_at TIMESTAMPTZ NOT NULL,
             deleted_at TIMESTAMPTZ

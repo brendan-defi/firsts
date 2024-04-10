@@ -27,7 +27,7 @@ steps = [
         """,
         # "Down" SQL statement
         """
-        DROP TABLE IF EXISTS unique_user_child_primary_relationship;
+        DROP INDEX IF EXISTS unique_user_child_primary_relationship;
         """
     ]
 ]
