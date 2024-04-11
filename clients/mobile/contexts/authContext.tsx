@@ -6,11 +6,15 @@ import {
     AuthContextProviderProps,
     BearerToken,
 } from "../types/authContext";
+import { UserData } from "../types/userData";
+
+import getUserData from "../utils/getUserData";
 
 const AuthContext = createContext<AuthState | null>(null);
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [hasCompletedNux, setHasCompletedNux] = useState(false);
 
     const storeBearerToken = async (bearerToken: BearerToken) => {
         await SecureStore.setItemAsync("bearerToken", bearerToken);
@@ -27,20 +31,27 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     };
 
     useEffect(() => {
-        const checkToken = async () => {
+        const checkUserData = async () => {
             const token = await getBearerToken();
-            if (token) {
-                setIsLoggedIn(true);
+            if (!token) {
+                return;
+            }
+            setIsLoggedIn(true);
+
+            const user = await getUserData(token);
+            if (user?.completed_nux) {
+                setHasCompletedNux(user.completed_nux);
             }
         };
 
-        checkToken();
+        checkUserData();
     }, []);
 
     return (
         <AuthContext.Provider
             value={{
                 isLoggedIn,
+                hasCompletedNux,
                 storeBearerToken,
                 deleteBearerToken,
                 getBearerToken,
