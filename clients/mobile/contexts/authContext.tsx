@@ -6,7 +6,6 @@ import {
     AuthContextProviderProps,
     BearerToken,
 } from "../types/authContext";
-import { UserData } from "../types/userData";
 
 import getUserData from "../utils/getUserData";
 
