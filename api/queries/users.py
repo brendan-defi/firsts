@@ -85,6 +85,46 @@ class UsersQueries:
                 detail=str(e),
             )
 
+    def get_all_user_data_by_id(
+        self,
+        user_id: int
+    ) -> UserOutWithAllInfo | None:
+        """
+        Queries the database for a user with the provided user_id.
+        If a user exists with that user_id, the user entity is returned as a
+        UserOutWithAllInfo object.
+        If a user does not exist with that user_id, raise an HTTPException
+        with a 400 Status.
+        """
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT
+                            id,
+                            username,
+                            firstname,
+                            lastname,
+                            completed_nux,
+                            created_at,
+                            updated_at,
+                            deleted_at
+                        FROM users
+                        WHERE id = %s;
+                        """,
+                        [user_id]
+                    )
+                    result_data = result.fetchone()
+                    if not result_data:
+                        return None
+                    return data_to_user_out_with_all_info(result_data)
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=str(e),
+            )
+
     def create(
         self,
         new_user_data: UserDataForAccountCreation
@@ -152,6 +192,7 @@ class UsersQueries:
                             username = %s,
                             firstname = %s,
                             lastname = %s,
+                            completed_nux = %s,
                             updated_at = %s
                         WHERE id = %s
                         RETURNING
@@ -159,6 +200,7 @@ class UsersQueries:
                             username,
                             firstname,
                             lastname,
+                            completed_nux,
                             created_at,
                             updated_at,
                             deleted_at;
@@ -167,6 +209,7 @@ class UsersQueries:
                             updated_user_data.username,
                             updated_user_data.firstname,
                             updated_user_data.lastname,
+                            updated_user_data.completed_nux,
                             updated_user_data.updated_at,
                             user_id
                         ]

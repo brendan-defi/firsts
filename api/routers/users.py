@@ -30,11 +30,11 @@ from queries.users import UsersQueries
 router = APIRouter()
 
 
-@router.post("/api/users", response_model=UserOut | Error)
+@router.post("/api/users", response_model=UserOutWithHashedPassword | Error)
 def create_user(
     form_submission: UserFormForAccountCreation,
     repo: UsersQueries = Depends(),
-) -> UserOutWithHashedPassword | Error:
+):
     new_user_data = prep_form_data_for_account_creation(form_submission)
     try:
         new_user = repo.create(new_user_data)
@@ -48,6 +48,25 @@ def create_user(
             message="Could not create new user."
         )
     return new_user
+
+
+@router.get("/api/users/me", response_model=UserOutWithAllInfo | Error)
+def get_user_data(
+    repo: UsersQueries = Depends(),
+    user_data: UserOut = Depends(authenticator.get_current_user)
+):
+    try:
+        user = repo.get_all_user_data_by_id(user_data.id)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
+    if not isinstance(user, UserOutWithAllInfo):
+        return Error(
+            message="Could not validate user."
+        )
+    return user
 
 
 @router.put("/api/users/{id}", response_model=UserOutWithAllInfo | Error)
