@@ -69,9 +69,8 @@ def get_user_data(
     return user
 
 
-@router.put("/api/users/{id}", response_model=UserOutWithAllInfo | Error)
+@router.put("/api/users/me", response_model=UserOutWithAllInfo | Error)
 def update_user(
-    id: int,
     form_data: UserFormForAccountUpdate,
     repo: UsersQueries = Depends(),
     user_data: UserOut = Depends(authenticator.get_current_user)
@@ -82,10 +81,9 @@ def update_user(
     this method, developer should provide all existing information that exists.
     Failing to provide information will result in accidental data deletion.
     """
-    validate_authorized_user(id, user_data.id)
     updated_user_data = data_to_user_data_for_account_update(form_data)
     try:
-        updated_user = repo.update(id, updated_user_data)
+        updated_user = repo.update(user_data.id, updated_user_data)
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
