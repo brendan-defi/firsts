@@ -6,10 +6,10 @@ import { SignupContextProvider } from "../contexts/signupContext";
 import {
     SignupUsername,
     SignupPassword,
-    NUXName,
-    NUXCreateChild,
-    NUXConnectChild,
-    NUXWelcome,
+    // NUXName,
+    // NUXCreateChild,
+    // NUXConnectChild,
+    // NUXWelcome,
 } from "../screens";
 
 const SignupStack = createNativeStackNavigator<SignupStackParamList>();
@@ -31,7 +31,7 @@ export default function SignupNavigator() {
                     name="SignupPassword"
                     component={SignupPassword}
                 />
-                <SignupStack.Screen
+                {/* <SignupStack.Screen
                     name="NUXName"
                     component={NUXName}
                 />
@@ -46,7 +46,7 @@ export default function SignupNavigator() {
                 <SignupStack.Screen
                     name="NUXWelcome"
                     component={NUXWelcome}
-                />
+                /> */}
             </SignupStack.Navigator>
         </SignupContextProvider>
     );
