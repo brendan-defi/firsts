@@ -4,7 +4,7 @@ import { useAuthContext } from "./contexts/authContext";
 
 import AuthNavigator from "./navigators/authNavigator";
 import NuxNavigator from "./navigators/nuxNavigator";
-import AppNavigator from "./navigators/homeNavigator";
+import HomeNavigator from "./navigators/homeNavigator";
 
 export default function Main() {
     const { isLoggedIn, hasCompletedNux } = useAuthContext();
@@ -15,7 +15,7 @@ export default function Main() {
                 ? <AuthNavigator />
                 : !hasCompletedNux
                     ? <NuxNavigator />
-                    : <AppNavigator />
+                    : <HomeNavigator />
             }
         </NavigationContainer>
     );
