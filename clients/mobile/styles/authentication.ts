@@ -10,7 +10,9 @@ export const authStyles = StyleSheet.create({
         justifyContent: "flex-start",
     },
     titleContainer: {
+        marginHorizontal: 40,
         flex: 0.4,
+        alignItems: "center",
     },
     title: {
         width: 400,
