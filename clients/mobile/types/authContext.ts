@@ -7,6 +7,7 @@ export type BearerToken = string;
 export type AuthState = {
     isLoggedIn: boolean;
     hasCompletedNux: boolean;
+    setHasCompletedNux: React.Dispatch<React.SetStateAction<boolean>>;
     storeBearerToken: (bearerToken: BearerToken) => Promise<void>;
     deleteBearerToken: () => Promise<void>;
     getBearerToken: () => Promise<BearerToken | null>;
