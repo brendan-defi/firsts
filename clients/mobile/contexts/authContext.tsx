@@ -51,6 +51,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
             value={{
                 isLoggedIn,
                 hasCompletedNux,
+                setHasCompletedNux,
                 storeBearerToken,
                 deleteBearerToken,
                 getBearerToken,
