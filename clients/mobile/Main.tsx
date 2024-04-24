@@ -7,13 +7,13 @@ import NuxNavigator from "./navigators/nuxNavigator";
 import HomeNavigator from "./navigators/homeNavigator";
 
 export default function Main() {
-    const { isLoggedIn, hasCompletedNux } = useAuthContext();
+    const { isLoggedIn, userData } = useAuthContext();
 
     return (
         <NavigationContainer>
             {!isLoggedIn
                 ? <AuthNavigator />
-                : !hasCompletedNux
+                : !userData.completed_nux
                     ? <NuxNavigator />
                     : <HomeNavigator />
             }
