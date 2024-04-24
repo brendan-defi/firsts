@@ -16,35 +16,30 @@ import { authStyles } from "../../../styles/authentication";
 import { navigationButtonStyles } from "../../../styles/navigationButton";
 
 import useToken from "../../../hooks/useToken";
-import getUserData from "../../../utils/getUserData";
 import updateUserData from "../../../utils/updateUserData";
 import { useAuthContext } from "../../../contexts/authContext";
+
+const emptyFormData = {
+    username: null,
+    firstname: undefined,
+    lastname: undefined,
+    completed_nux: null,
+};
 
 export default function NUXName({ navigation }: NuxProps) {
     const bearerToken = useToken();
     const { userData, setUserData } = useAuthContext();
     const [userDataForUpdateForm, setUserDataForUpdateForm] =
-        useState<UserDataForAccountUpdate>({
-            username: null,
-            firstname: undefined,
-            lastname: undefined,
-            completed_nux: null,
-        });
+        useState<UserDataForAccountUpdate>({ ...emptyFormData });
 
     useEffect(() => {
-        const setCurrentUserData = async () => {
-            const currentUserData = await getUserData(bearerToken);
-            if (currentUserData) {
-                setUserDataForUpdateForm({
-                    username: currentUserData.username,
-                    firstname: currentUserData.firstname,
-                    lastname: currentUserData.lastname,
-                    completed_nux: currentUserData.completed_nux,
-                });
-            }
-        };
-        setCurrentUserData();
-    }, [bearerToken]);
+        setUserDataForUpdateForm({
+            username: userData.username,
+            firstname: userData.firstname,
+            lastname: userData.lastname,
+            completed_nux: userData.completed_nux,
+        });
+    }, []);
 
     const handleFormInput = (text: string, key: string) => {
         setUserDataForUpdateForm({
@@ -58,7 +53,7 @@ export default function NUXName({ navigation }: NuxProps) {
             bearerToken
         );
         if (!updatedUserData) {
-            console.error("some sort of error")
+            console.error("some sort of error");
         }
         navigation.navigate("NUXCreateChild");
     };
@@ -66,15 +61,15 @@ export default function NUXName({ navigation }: NuxProps) {
         const skipNuxFormData: UserDataForAccountUpdate = {
             ...userDataForUpdateForm,
             completed_nux: true,
-        }
+        };
         const updatedUserData = await updateUserData(
             skipNuxFormData,
             bearerToken
         );
         if (!updatedUserData) {
-            console.error("some sort of error")
+            console.error("some sort of error");
         }
-        setUserData({...userData, completed_nux: true});
+        setUserData({ ...userData, completed_nux: true });
     };
 
     return (
