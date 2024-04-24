@@ -22,7 +22,7 @@ import { useAuthContext } from "../../../contexts/authContext";
 
 export default function NUXName({ navigation }: NuxProps) {
     const bearerToken = useToken();
-    const { setHasCompletedNux } = useAuthContext();
+    const { userData, setUserData } = useAuthContext();
     const [userDataForUpdateForm, setUserDataForUpdateForm] =
         useState<UserDataForAccountUpdate>({
             username: null,
@@ -74,10 +74,8 @@ export default function NUXName({ navigation }: NuxProps) {
         if (!updatedUserData) {
             console.error("some sort of error")
         }
-        setHasCompletedNux(true);
+        setUserData({...userData, completed_nux: true});
     };
-
-    console.log(userDataForUpdateForm)
 
     return (
         <SafeAreaView style={authStyles.container}>
