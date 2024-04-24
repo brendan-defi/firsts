@@ -8,12 +8,24 @@ import {
 } from "../types/authContext";
 
 import getUserData from "../utils/getUserData";
+import { UserData } from "../types/userData";
 
 const AuthContext = createContext<AuthState | null>(null);
 
+const emptyUserData = {
+    id: 0,
+    username: null,
+    firstname: undefined,
+    lastname: undefined,
+    completed_nux: null,
+    created_at: "",
+    updated_at: "",
+    deleted_at: null,
+};
+
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [hasCompletedNux, setHasCompletedNux] = useState(false);
+    const [userData, setUserData] = useState<UserData>({ ...emptyUserData });
 
     const storeBearerToken = async (bearerToken: BearerToken) => {
         await SecureStore.setItemAsync("bearerToken", bearerToken);
@@ -23,6 +35,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     const deleteBearerToken = async () => {
         await SecureStore.deleteItemAsync("bearerToken");
         setIsLoggedIn(false);
+        setUserData({ ...emptyUserData });
     };
 
     const getBearerToken = async () => {
@@ -33,25 +46,39 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         const checkUserData = async () => {
             const token = await getBearerToken();
             if (!token) {
+                setIsLoggedIn(false);
+                setUserData({ ...emptyUserData })
                 return;
             }
             setIsLoggedIn(true);
 
             const user = await getUserData(token);
-            if (user?.completed_nux) {
-                setHasCompletedNux(user.completed_nux);
+            if (user && JSON.stringify(user) !== JSON.stringify(userData)) {
+                setUserData({
+                    id: user.id,
+                    username: user.username,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    completed_nux: user.completed_nux,
+                    created_at: user.created_at,
+                    updated_at: user.updated_at,
+                    deleted_at: user.deleted_at,
+                });
             }
         };
 
         checkUserData();
-    }, []);
+    }, [
+        userData,
+        isLoggedIn,
+    ]);
 
     return (
         <AuthContext.Provider
             value={{
                 isLoggedIn,
-                hasCompletedNux,
-                setHasCompletedNux,
+                userData,
+                setUserData,
                 storeBearerToken,
                 deleteBearerToken,
                 getBearerToken,
